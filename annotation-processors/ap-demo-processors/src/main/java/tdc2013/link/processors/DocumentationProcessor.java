@@ -30,6 +30,7 @@
  */
 package tdc2013.link.processors;
 
+import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
@@ -42,6 +43,10 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic;
+import org.apache.http.StatusLine;
+import org.apache.http.client.fluent.Request;
+import tdc2013.link.Documentation;
 
 @SupportedAnnotationTypes({"tdc2013.link.Documentation"})
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
@@ -55,6 +60,23 @@ public class DocumentationProcessor extends AbstractProcessor {
     @Override
     public boolean process(final Set<? extends TypeElement> annotations,
             final RoundEnvironment roundEnv) {
+        for (Element element : roundEnv.getElementsAnnotatedWith(Documentation.class)) {
+            final Documentation documentation = element.getAnnotation(Documentation.class);
+            final String hostname = documentation.value();
+            try {
+                final StatusLine status = Request.Get(hostname).
+                        connectTimeout(1000).execute().returnResponse().getStatusLine();
+                if (status.getStatusCode() != 200) {
+                    processingEnv.getMessager().printMessage(Diagnostic.Kind.MANDATORY_WARNING,
+                            "A documentação informada em " + hostname
+                            + " parece ter sido (re)movida. Favor verificar.", element);
+                }
+            } catch (IOException ex) {
+                processingEnv.getMessager().printMessage(Diagnostic.Kind.MANDATORY_WARNING,
+                        "A documentação informada em " + hostname
+                        + " parece ter sido (re)movida. Favor verificar.", element);
+            }
+        }
         return false;
     }
 
