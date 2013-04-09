@@ -64,8 +64,8 @@ public class DocumentationProcessor extends AbstractProcessor {
             final Documentation documentation = element.getAnnotation(Documentation.class);
             final String hostname = documentation.value();
             try {
-                final StatusLine status = Request.Get(hostname).
-                        connectTimeout(1000).execute().returnResponse().getStatusLine();
+				final StatusLine status = Request.Head(hostname).connectTimeout(500).execute().
+						returnResponse().getStatusLine();
                 if (status.getStatusCode() != 200) {
                     processingEnv.getMessager().printMessage(Diagnostic.Kind.MANDATORY_WARNING,
                             "A documentação informada em " + hostname
