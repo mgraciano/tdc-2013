@@ -4,3 +4,7 @@
 *.jar
 *.war
 *.ear
+/annotation-processors/ap-demo-processors/target/
+/annotation-processors/ap-demo-annotations/target/
+/annotation-processors/ap-demo-web/target/
+/annotation-processors/target/
