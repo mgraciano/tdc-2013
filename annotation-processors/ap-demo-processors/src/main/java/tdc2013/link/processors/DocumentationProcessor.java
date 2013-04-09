@@ -47,10 +47,10 @@ import javax.lang.model.element.TypeElement;
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class DocumentationProcessor extends AbstractProcessor {
 
-    private static String[] urls = new String[]{
-        "http://wiki.netbeans.org/",
-        "http://www.wikipedia.org/",
-        "http://wiki.suaempresa.com.br/"};
+    private static String[][] urls = new String[][]{
+        new String[]{"http://wiki.netbeans.org/", "Wiki do projeto NetBeans.org."},
+        new String[]{"http://www.wikipedia.org/", "Wiki do projeto Wikipedia - The Free Encyclopedia."},
+        new String[]{"http://wiki.suaempresa.com.br/", "Wiki interna da sua empresa."}};
 
     @Override
     public boolean process(final Set<? extends TypeElement> annotations,
@@ -61,16 +61,16 @@ public class DocumentationProcessor extends AbstractProcessor {
     @Override
     public Iterable<? extends Completion> getCompletions(Element element, AnnotationMirror annotation, ExecutableElement member, String userText) {
         final Set<Completion> c = new LinkedHashSet<>(3);
-        for (final String url : urls) {
+        for (final String[] url : urls) {
             c.add(new Completion() {
                 @Override
                 public String getValue() {
-                    return '\"' + url + '\"';
+                    return '\"' + url[0] + '\"';
                 }
 
                 @Override
                 public String getMessage() {
-                    return "URL para site";
+                    return url[1];
                 }
             });
         }
