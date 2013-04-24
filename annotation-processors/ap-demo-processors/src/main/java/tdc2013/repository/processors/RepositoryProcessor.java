@@ -28,10 +28,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.repository.processors;
 
 import java.io.BufferedWriter;
@@ -55,7 +51,7 @@ import javax.tools.JavaFileObject;
 /**
  * @author Klaus Boeing
  */
-@SupportedAnnotationTypes("testeddd.Repository")
+@SupportedAnnotationTypes("tdc2013.repository.Repository")
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class RepositoryProcessor extends AbstractProcessor {
 
@@ -98,7 +94,7 @@ public class RepositoryProcessor extends AbstractProcessor {
 
                         for (int i = 0; i < method.getParameters().size(); i++) {
                             VariableElement typeParameterElement = method.getParameters().get(i);
-                            
+
                             bw.append(" " + typeParameterElement.asType());
                             bw.append(" " + typeParameterElement.getSimpleName());
 
