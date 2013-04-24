@@ -30,6 +30,10 @@
  */
 package tdc2013.link;
 
-@Documentation("https://netbeans.org/")
+@Documentation("https://www.google.com.br/")
 public class Index {
+
+    public Boolean getBoolean() {
+        return Boolean.FALSE;
+    }
 }

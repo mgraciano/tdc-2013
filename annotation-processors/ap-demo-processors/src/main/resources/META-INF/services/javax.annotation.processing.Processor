@@ -1,2 +1,3 @@
 tdc2013.link.processors.DocumentationProcessor
+tdc2013.processors.InvalidBooleanGetterProcessor
 tdc2013.repository.processors.RepositoryProcessor
