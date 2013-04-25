@@ -30,7 +30,7 @@
  */
 package tdc2013.link;
 
-@Documentation("https://www.google.com.br/")
+@Documentation("http://localhost:8080/annotation-processors-demo-web/")
 public class Index {
 
     public Boolean getBoolean() {
