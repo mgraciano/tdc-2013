@@ -28,20 +28,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-@TypeDefs({
-    @TypeDef(name = "sexo",
-            typeClass = EnumUserType.class,
-            parameters = {
-        @Parameter(name = "enumClass", value = "tdc2013.hibernate.model.Sexo")
-    }),
-    @TypeDef(name = "estadoCivil",
-            typeClass = EnumUserType.class,
-            parameters = {
-        @Parameter(name = "enumClass", value = "tdc2013.hibernate.model.EstadoCivil")
-    })
-})
-package tdc2013.hibernate;
+package tdc2013.hibernate.model;
 
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
+import tdc2013.hibernate.EnumValue;
+
+public enum Sexo implements EnumValue<String> {
+
+    MASCULINO("M"), FEMININO("F");
+    private final String valor;
+
+    private Sexo(final String valor) {
+        this.valor = valor;
+    }
+
+    @Override
+    public String getValor() {
+        return valor;
+    }
+}

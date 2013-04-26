@@ -30,48 +30,7 @@
  */
 package tdc2013.hibernate;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import org.hibernate.annotations.Type;
-import tdc2013.link.Documentation;
+public interface EnumValue<T> {
 
-@Entity
-@Documentation("http://docs.jboss.org/hibernate/orm/4.2/manual/en-US/html_single/#mapping-declaration-property")
-public class Pessoa implements Serializable {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-    private String nome;
-    @Enumerated(EnumType.STRING)
-    @Type(type = "sexo")
-    private Sexo sexo;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Sexo getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(Sexo sexo) {
-        this.sexo = sexo;
-    }
+    T getValor();
 }

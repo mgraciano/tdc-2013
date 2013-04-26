@@ -28,18 +28,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package tdc2013.hibernate;
+package tdc2013.hibernate.model;
 
-public enum Sexo {
+import tdc2013.hibernate.EnumValue;
 
-    MASCULINO("M"), FEMININO("F");
-    private final String simbolo;
+public enum EstadoCivil implements EnumValue<Integer> {
 
-    private Sexo(final String simbolo) {
-        this.simbolo = simbolo;
+    SOLTEIRO(1), CASADO(2), DIVORCIADO(3);
+    private final Integer valor;
+
+    private EstadoCivil(final Integer valor) {
+        this.valor = valor;
     }
 
-    public String getSimbolo() {
-        return simbolo;
+    @Override
+    public Integer getValor() {
+        return valor;
     }
 }
