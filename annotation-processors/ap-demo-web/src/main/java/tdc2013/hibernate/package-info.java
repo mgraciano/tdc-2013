@@ -30,14 +30,14 @@
  */
 @TypeDefs({
     @TypeDef(name = "sexo",
-            typeClass = EnumUserType.class,
+            typeClass = EnumValueUserType.class,
             parameters = {
-        @Parameter(name = "enumClass", value = "tdc2013.hibernate.model.Sexo")
+        @Parameter(name = "enumClassName", value = "tdc2013.hibernate.model.Sexo")
     }),
     @TypeDef(name = "estadoCivil",
-            typeClass = EnumUserType.class,
+            typeClass = EnumValueUserType.class,
             parameters = {
-        @Parameter(name = "enumClass", value = "tdc2013.hibernate.model.EstadoCivil")
+        @Parameter(name = "enumClassName", value = "tdc2013.hibernate.model.EstadoCivil")
     })
 })
 package tdc2013.hibernate;

@@ -32,17 +32,17 @@ package tdc2013.hibernate.model;
 
 import tdc2013.hibernate.EnumValue;
 
-public enum EstadoCivil implements EnumValue<Integer> {
+public enum EstadoCivil implements EnumValue<EstadoCivil, Integer> {
 
-    SOLTEIRO(1), CASADO(2), DIVORCIADO(3);
-    private final Integer valor;
+	SOLTEIRO(1), CASADO(2), DIVORCIADO(3);
+	private final Integer valor;
 
-    private EstadoCivil(final Integer valor) {
-        this.valor = valor;
-    }
+	private EstadoCivil(final Integer valor) {
+		this.valor = valor;
+	}
 
-    @Override
-    public Integer getValor() {
-        return valor;
-    }
+	@Override
+	public Integer getValor() {
+		return valor;
+	}
 }

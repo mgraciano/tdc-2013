@@ -30,7 +30,7 @@
  */
 package tdc2013.hibernate;
 
-public interface EnumValue<T> {
+public interface EnumValue<T extends Enum<T> & EnumValue<T, V>, V> {
 
-    T getValor();
+	V getValor();
 }

@@ -32,7 +32,7 @@ package tdc2013.hibernate.model;
 
 import tdc2013.hibernate.EnumValue;
 
-public enum Sexo implements EnumValue<String> {
+public enum Sexo implements EnumValue<Sexo, String> {
 
     MASCULINO("M"), FEMININO("F");
     private final String valor;
