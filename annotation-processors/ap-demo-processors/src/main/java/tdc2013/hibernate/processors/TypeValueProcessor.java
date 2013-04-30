@@ -59,7 +59,7 @@ import javax.tools.StandardLocation;
 public class TypeValueProcessor extends AbstractProcessor {
 
     private static final String resourceName = "enum_value_names_apt_cache";
-    //TODO: Needs further investigation why NetBeans editor had problems to read the cache
+    //Need to be static because some APT limitations, mainly when using it inside tools like NetBeans
     private static final Set<String> enumValueClasses = new HashSet<>();
     //Using pretty printing for demonstration purpose
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
