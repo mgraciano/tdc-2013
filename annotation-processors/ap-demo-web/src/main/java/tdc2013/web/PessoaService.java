@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Klaus López Boeing & Michel Graciano.
+ * Copyright (c) 2013, Klaus L��pez Boeing & Michel Graciano.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,19 +28,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package tdc2013.web;
 
-package tdc2013.repository;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import tdc2013.hibernate.model.Pessoa;
+import tdc2013.hibernate.model.PessoaRepository;
+import tdc2013.hibernate.model.Sexo;
 
-import java.util.Date;
-import java.util.List;
-
-@Repository
-public interface ClienteRepository {
+/**
+ *
+ * @author klaus.boeing
+ */
+@Named
+@Stateless
+public class PessoaService {
     
-    public Cliente findById(int id);
+    @Inject PessoaRepository pessoaRepository;
+    @Inject EntityManager em;
     
-    public Cliente findBySobrenome(String sobrenome);
-    
-    public List<Cliente> findByNomeLikeAndDataCadastroBetween(String nome, Date dataInicio, Date dataFim);
+    public Pessoa getResultFind1(){
+        Pessoa pessoa = new Pessoa();
+        pessoa.setId(1l);
+        pessoa.setNome("Mr. Jonnes");
+        pessoa.setSexo(Sexo.MASCULINO);
+        
+        em.merge(pessoa);
+        
+        return pessoaRepository.findByNomeLike("%Jo%");
+    }
     
 }

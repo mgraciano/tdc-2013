@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Klaus López Boeing & Michel Graciano.
+ * Copyright (c) 2013, Klaus L��pez Boeing & Michel Graciano.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,23 +28,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package tdc2013.hibernate.model;
 
-package tdc2013.repository;
+import tdc2013.repository.Repository;
 
-import java.util.Date;
+/**
+ *
+ * @author klaus.boeing
+ */
+@Repository
+public interface PessoaRepository {
 
-public class Fatura {
-    private Date dataFatura;
-    private int quantidade;
-    private Cliente cliente;
+    public Pessoa findByIdEqual(Long id);
     
-    public Date dataFatura() {
-        return dataFatura;
-    }
-    public int quantidade() {
-        return quantidade;
-    }
-    public Cliente cliente() {
-        return cliente;
-    }
+    public Pessoa findByNomeLike(String nome);
+
 }

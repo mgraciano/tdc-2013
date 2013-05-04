@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Klaus López Boeing & Michel Graciano.
+ * Copyright (c) 2013, Klaus L��pez Boeing & Michel Graciano.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,7 @@
  */
 package tdc2013.repository.processors;
 
+import freemarker.template.TemplateException;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -49,6 +50,7 @@ import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.tools.JavaFileObject;
+import tdc2013.repository.processors.RepositoryInfo.MethodInfo;
 
 /**
  * @author Klaus Boeing
@@ -75,52 +77,28 @@ public class RepositoryProcessor extends AbstractProcessor {
             try {
                 JavaFileObject jfo = processingEnv.getFiler().createSourceFile(
                         classElement.getQualifiedName() + "Impl");
+
+                RepositoryInfo info = new RepositoryInfo(packageElement.getQualifiedName().toString(), classElement.getSimpleName().toString(), classElement.getQualifiedName().toString());
+
                 try (BufferedWriter bw = new BufferedWriter(jfo.openWriter())) {
-                    bw.append("package ");
-                    bw.append(packageElement.getQualifiedName());
-                    bw.append(";");
-                    bw.newLine();
-                    bw.newLine();
-
-                    bw.append("@javax.annotation.Generated(value = \""
-                            + getClass().getPackage().getName() + "\", date = \""
-                            + new SimpleDateFormat().format(new Date()) + "\")");
-                    bw.newLine();
-                    bw.append("public class " + classElement.getSimpleName() + "Impl implements " + classElement.getQualifiedName() + "{");
-
-                    bw.newLine();
-                    bw.newLine();
                     for (Element _element : classElement.getEnclosedElements()) {
                         if (_element.getKind() == ElementKind.METHOD) {
                             ExecutableElement method = ExecutableElement.class.cast(_element);
-                            bw.append("public " + method.getReturnType());
-                            bw.append(" " + method.getSimpleName());
-                            bw.append("(");
+                            MethodInfo methodInfo = info.new MethodInfo(method.getSimpleName().toString(), method.getReturnType().toString());
+
+                            info.addMethod(methodInfo);
 
                             for (int i = 0; i < method.getParameters().size(); i++) {
                                 VariableElement typeParameterElement = method.getParameters().get(i);
 
-                                bw.append(" " + typeParameterElement.asType());
-                                bw.append(" " + typeParameterElement.getSimpleName());
-
-                                if (i + 1 < method.getParameters().size()) {
-                                    bw.append(",");
-                                }
+                                methodInfo.addParameter(typeParameterElement.getSimpleName().toString(), typeParameterElement.asType().toString());
                             }
-
-
-                            bw.append("){");
-                            bw.append("System.out.println(\"" + method.getSimpleName() + "\");");
-                            bw.newLine();
-                            bw.append("return null;");
-                            bw.newLine();
-                            bw.append("}");
                         }
-                        bw.newLine();
                     }
 
-                    bw.newLine();
-                    bw.append("}");
+                    FreemarkerUtils.parseTemplate(bw, info, "RepositoryClass.ftl");
+                } catch (TemplateException ex) {
+                    Logger.getLogger(RepositoryProcessor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } catch (IOException ex) {
                 Logger.getLogger(RepositoryProcessor.class.getName()).log(Level.SEVERE, null, ex);

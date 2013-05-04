@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Klaus López Boeing & Michel Graciano.
+ * Copyright (c) 2013, Klaus L��pez Boeing & Michel Graciano.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,8 +28,22 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package tdc2013.repository;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package tdc2013.hibernate;
 
-public class Cliente {
+import javax.enterprise.inject.Produces;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+/**
+ *
+ * @author klaus.boeing
+ */
+public class EntityManagerProvider {
+    
+    @Produces @PersistenceContext EntityManager em;
     
 }

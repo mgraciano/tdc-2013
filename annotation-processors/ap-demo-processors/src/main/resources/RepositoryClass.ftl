@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!--
+<#--
 
     Copyright (c) 2013, Klaus L��pez Boeing & Michel Graciano.
     All rights reserved.
@@ -31,16 +30,41 @@
     POSSIBILITY OF SUCH DAMAGE.
 
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-    <h:head>
-        <title>TDC Floripa 2013 - Demo</title>
-        <h:outputStylesheet name="css/style.css"/>
-    </h:head>
-    <h:body>
-        Olá a todos :-D
-        ${pessoaService.resultFind1}
-    </h:body>
-</html>
+package ${packageName};
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.inject.Inject;
+
+@javax.annotation.Generated(value = "tdc2013.repository.processors", date = "${date}")
+public class ${interfaceName}Impl implements ${interfacePath}{
+
+    private EntityManager em;
+
+
+    @Inject
+    public ${interfaceName}Impl(EntityManager em){
+        this.em = em;
+    }
+
+<#list methods as m>
+
+    @Override
+    public ${m.returnType} ${m.name}(${m.parametersString}){
+
+        TypedQuery<${entityName}> query = em.createQuery("${m.query}", ${entityName}.class);
+                
+        <#list m.parameters as item>
+        query.setParameter(${item_index + 1}, ${item});
+        </#list>
+
+        <#if m.returnTypeCollection>
+        return query.getResultList();
+        <#else>
+        return query.getSingleResult();
+        </#if>
+    }
+
+</#list>
+
+}
