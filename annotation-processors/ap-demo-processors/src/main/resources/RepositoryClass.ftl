@@ -1,6 +1,6 @@
 <#--
 
-    Copyright (c) 2013, Klaus L��pez Boeing & Michel Graciano.
+    Copyright (c) 2013, Klaus Boeing & Michel Graciano.
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
