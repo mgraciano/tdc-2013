@@ -28,23 +28,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.repository.processors;
 
 import java.io.IOException;
-
-
-
-
 import freemarker.template.Configuration;
-
 import freemarker.template.DefaultObjectWrapper;
-
 import freemarker.template.Template;
-
 import freemarker.template.TemplateException;
 import java.io.File;
 import java.io.FileWriter;
@@ -67,6 +56,6 @@ public class FreemarkerUtils {
     public static void main(String[] args) throws IOException, TemplateException {
         Map map = new HashMap();
         map.put("name", "Teste");
-        FreemarkerUtils.parseTemplate(new FileWriter(File.createTempFile("testestes", "sasdteste")), map,"RepositoryClass.ftl");
+        FreemarkerUtils.parseTemplate(new FileWriter(File.createTempFile("testestes", "sasdteste")), map, "RepositoryClass.ftl");
     }
 }

@@ -33,8 +33,6 @@ package tdc2013.repository.processors;
 import freemarker.template.TemplateException;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;

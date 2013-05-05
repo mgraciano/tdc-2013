@@ -28,10 +28,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.repository.processors;
 
 import java.util.ArrayList;
@@ -39,10 +35,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-/**
- *
- * @author klaus.boeing
- */
 public class QueryMethodBuilder {
 
     private String entityName;
@@ -57,7 +49,7 @@ public class QueryMethodBuilder {
 
     public String build() {
         StringBuilder queryBuilder;
-        String normalizePattern = "(".concat(RELATIONAL_OPERATORS_PATTERN).concat("|").concat(LOGICAL_OPERATORS_PATTERN).concat( ")" );
+        String normalizePattern = "(".concat(RELATIONAL_OPERATORS_PATTERN).concat("|").concat(LOGICAL_OPERATORS_PATTERN).concat(")");
         String normalizedString = fluentQueryString.replaceAll("findBy", "").replaceAll(normalizePattern, "|$1|");
 
         try (Scanner scanner = new Scanner(normalizedString)) {
@@ -102,17 +94,17 @@ public class QueryMethodBuilder {
         private String relationalOperator;
         private String logicalOperator;
 
-        public Expression(String property) {
+        Expression(String property) {
             this.property = property.substring(0, 1).toLowerCase().concat(property.substring(1));
         }
-       
+
         private String getQueryExpression(String alias) {
             StringBuilder builder = new StringBuilder();
             builder.append(alias);
             builder.append(".");
             builder.append(property);
             builder.append(" ");
-            
+
             switch (relationalOperator) {
                 case "Equal":
                     builder.append(" = ? ");
