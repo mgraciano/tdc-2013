@@ -28,10 +28,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.hibernate.model;
 
 import tdc2013.repository.Repository;
