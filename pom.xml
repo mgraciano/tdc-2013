@@ -8,6 +8,11 @@
 
     <name>TDC 2013 - Demos</name>
     <url>https://github.com/mgraciano/tdc-2013</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -31,7 +36,4 @@
     <modules>
         <module>annotation-processors</module>
     </modules>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 </project>
