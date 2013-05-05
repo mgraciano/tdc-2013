@@ -58,7 +58,7 @@ public class RepositoryInfo {
     }
 
     public String getEntityName() {
-        return packageName.concat(".").concat(interfaceName.replaceAll("Repository", ""));
+        return interfaceName.replaceAll("Repository", "");
     }
 
     public RepositoryInfo(String packageName, String interfaceName, String interfacePath) {
