@@ -76,9 +76,9 @@ public class QueryMethodBuilder {
             expressions.add(expression);
 
             queryBuilder = new StringBuilder();
-            queryBuilder.append("Select entity From ");
+            queryBuilder.append("SELECT entity FROM ");
             queryBuilder.append(entityName);
-            queryBuilder.append(" entity Where ");
+            queryBuilder.append(" entity WHERE ");
 
             for (Expression exp : expressions) {
                 queryBuilder.append(exp.getQueryExpression("entity"));
@@ -110,7 +110,7 @@ public class QueryMethodBuilder {
                     builder.append(" = ? ");
                     break;
                 case "Between":
-                    builder.append(" between ? and ? ");
+                    builder.append(" BETWEEN ? AND ? ");
                     break;
                 case "GreaterThan":
                     builder.append(" > ? ");
@@ -119,10 +119,10 @@ public class QueryMethodBuilder {
                     builder.append(" >= ? ");
                     break;
                 case "IsNotNull":
-                    builder.append(" is not null ");
+                    builder.append(" IS NOT NULL ");
                     break;
                 case "IsNull":
-                    builder.append(" is null ");
+                    builder.append(" IS NULL ");
                     break;
                 case "LessThan":
                     builder.append(" <? ");
@@ -131,7 +131,7 @@ public class QueryMethodBuilder {
                     builder.append(" <=? ");
                     break;
                 case "Like":
-                    builder.append(" like ? ");
+                    builder.append(" LIKE ? ");
                     break;
                 case "NotEqual":
                     builder.append(" <> ? ");
