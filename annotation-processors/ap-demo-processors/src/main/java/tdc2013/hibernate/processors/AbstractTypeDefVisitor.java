@@ -31,100 +31,91 @@
 package tdc2013.hibernate.processors;
 
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
-import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.AbstractAnnotationValueVisitor7;
 
-public class TypeDefVisitor extends AbstractAnnotationValueVisitor7<Void, Void> {
+public abstract class AbstractTypeDefVisitor<R, P> extends AbstractAnnotationValueVisitor7<R, P> {
 
     @Override
-    public Void visitBoolean(boolean b, Void p) {
+    public R visitBoolean(boolean b, P p) {
         Logger.getGlobal().log(Level.WARNING, "visitBoolean {0}...", b);
         return null;
     }
 
     @Override
-    public Void visitByte(byte b, Void p) {
+    public R visitByte(byte b, P p) {
         Logger.getGlobal().log(Level.WARNING, "visitByte {0}...", b);
         return null;
     }
 
     @Override
-    public Void visitChar(char c, Void p) {
+    public R visitChar(char c, P p) {
         Logger.getGlobal().log(Level.WARNING, "visitChar {0}...", c);
         return null;
     }
 
     @Override
-    public Void visitDouble(double d, Void p) {
+    public R visitDouble(double d, P p) {
         Logger.getGlobal().log(Level.WARNING, "visitDouble {0}...", d);
         return null;
     }
 
     @Override
-    public Void visitFloat(float f, Void p) {
+    public R visitFloat(float f, P p) {
         Logger.getGlobal().log(Level.WARNING, "visitFloat {0}...", f);
         return null;
     }
 
     @Override
-    public Void visitInt(int i, Void p) {
+    public R visitInt(int i, P p) {
         Logger.getGlobal().log(Level.WARNING, "visitInt {0}...", i);
         return null;
     }
 
     @Override
-    public Void visitLong(long i, Void p) {
+    public R visitLong(long i, P p) {
         Logger.getGlobal().log(Level.WARNING, "visitLong {0}...", i);
         return null;
     }
 
     @Override
-    public Void visitShort(short s, Void p) {
+    public R visitShort(short s, P p) {
         Logger.getGlobal().log(Level.WARNING, "visitShort {0}...", s);
         return null;
     }
 
     @Override
-    public Void visitString(String s, Void p) {
+    public R visitString(String s, P p) {
         Logger.getGlobal().log(Level.WARNING, "visitString {0}...", s);
         return null;
     }
 
     @Override
-    public Void visitType(TypeMirror t, Void p) {
+    public R visitType(TypeMirror t, P p) {
         Logger.getGlobal().log(Level.WARNING, "visitType {0}...", t.toString());
         return null;
     }
 
     @Override
-    public Void visitEnumConstant(VariableElement c, Void p) {
+    public R visitEnumConstant(VariableElement c, P p) {
         Logger.getGlobal().log(Level.WARNING, "visitEnumConstant {0}...", c.toString());
         return null;
     }
 
     @Override
-    public Void visitAnnotation(AnnotationMirror a, Void p) {
-//        Logger.getGlobal().log(Level.WARNING, "visitAnnotation {0}...", a.toString());
-        for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : a.getElementValues().entrySet()) {
-//            entry.getValue().accept(this, null);
-            Logger.getGlobal().log(Level.WARNING, "AV {0}...", entry.toString());
-        }
-        return null;
-    }
+    public abstract R visitAnnotation(AnnotationMirror a, P p);
 
     @Override
-    public Void visitArray(
-            List<? extends AnnotationValue> vals, Void p) {
+    public R visitArray(
+            List<? extends AnnotationValue> vals, P p) {
 //        Logger.getGlobal().log(Level.WARNING, "visitArray {0}...", vals.toString());
         for (AnnotationValue av : vals) {
-            av.accept(this, null);
+            av.accept(this, p);
         }
         return null;
     }

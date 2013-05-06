@@ -31,7 +31,9 @@
 
 package tdc2013.hibernate.processors;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.lang.model.element.AnnotationMirror;
@@ -47,14 +49,22 @@ public class TypdeDefsVisitor extends AbstractElementVisitor7<Void, Void> {
 
     @Override
     public Void visitPackage(PackageElement e, Void p) {
+        final Set<String> typesNames = new HashSet<>();
+
         Logger.getGlobal().log(Level.WARNING, "PackageElement {0}...", e.toString());
         for (AnnotationMirror am : e.getAnnotationMirrors()) {
+            if (!am.getAnnotationType().asElement().getSimpleName().contentEquals("TypeDefs")) {
+                continue;
+            }
+
             for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : am.getElementValues().
                     entrySet()) {
                 final AnnotationValue typeDef = entry.getValue();
-                typeDef.accept(new TypeDefVisitor(), null);
+                typeDef.accept(new TypeDefNameVisitor(), typesNames);
             }
         }
+
+        Logger.getGlobal().log(Level.WARNING, "Names {0}...", typesNames.toString());
         return null;
     }
 
