@@ -32,50 +32,52 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tdc2013.web;
+package tdc2013.script.processors;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import tdc2013.hibernate.model.Pessoa;
-import tdc2013.hibernate.model.PessoaRepository;
-import tdc2013.hibernate.model.Sexo;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
  * @author klaus.boeing
  */
-@Named
-@Stateless
-public class PessoaService {
-    
-    @Inject PessoaRepository pessoaRepository;
-    @Inject EntityManager em;
-    @Inject Calculos calculos;
-    
-    public Pessoa getResultFind1(){
-        Pessoa pessoa = new Pessoa();
-        pessoa.setId(1l);
-        pessoa.setNome("Mr. Jonnes");
-        pessoa.setSexo(Sexo.MASCULINO);
-        
-        em.merge(pessoa);
-        
-        return pessoaRepository.findBySexoEqual(Sexo.MASCULINO);
+public class ScriptInfo {
+
+    private String packageName;
+    private String interfaceName;
+    private String interfacePath;
+    private String script;
+    private String engine;
+
+    public ScriptInfo(String packageName, String interfaceName, String interfacePath, String script, String engine) {
+        this.packageName = packageName;
+        this.interfaceName = interfaceName;
+        this.interfacePath = interfacePath;
+        this.script = script;
+        this.engine = engine;
     }
-    
-    public int soma(int n1, int n2){
-        return calculos.soma(n1, n2);
+
+    public String getDate() {
+        return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     }
-    public int diminui(int n1, int n2){
-        return calculos.diminui(n1, n2);
+
+    public String getInterfaceName() {
+        return interfaceName;
     }
-    public double divide(int n1, int n2){
-        return calculos.divide(n1, n2);
+
+    public String getInterfacePath() {
+        return interfacePath;
     }
-    public int multiplica(int n1, int n2){
-        return calculos.multiplica(n1, n2);
+
+    public String getPackageName() {
+        return packageName;
     }
-    
+
+    public String getEngine() {
+        return engine;
+    }
+
+    public String getScript() {
+        return script;
+    }
 }

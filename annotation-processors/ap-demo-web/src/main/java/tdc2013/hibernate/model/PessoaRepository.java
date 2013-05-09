@@ -17,6 +17,6 @@ public interface PessoaRepository {
 
 	public Pessoa findBySexoEqual(Sexo sexo);
 
-	public Collection<Pessoa> findBySexoEqualAndNameLike(Sexo sexo, String name);
+	//public Collection<Pessoa> findBySexoEqualAndNameLike(Sexo sexo, String name);
 
 }

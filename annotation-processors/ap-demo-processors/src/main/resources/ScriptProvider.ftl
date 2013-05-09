@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!--
+<#--
 
     Copyright (c) 2013, Klaus Boeing & Michel Graciano.
     All rights reserved.
@@ -31,39 +30,26 @@
     POSSIBILITY OF SUCH DAMAGE.
 
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-    <h:head>
-        <title>TDC Floripa 2013 - Demo</title>
-        <h:outputStylesheet name="css/style.css"/>
-    </h:head>
-    <h:body>
-        Teste repositorio: ${pessoaService.resultFind1}<br/>
-        <br/>
-        Teste script (soma 1.9): ${pessoaService.soma(1,9)}<br/>
-        Teste script (diminui 10.2): ${pessoaService.diminui(10,2)}<br/>
-        Teste script (multiplica 2.2): ${pessoaService.multiplica(2,2)}<br/>
-        Teste script (divide 15.2): ${pessoaService.divide(15,2)}<br/>
-        <br/>
-        JavaScript executado<br/><br/>
-        function soma(n1, n2){<br/>
-            return n1 + n2;<br/>
-        }<br/>
-<br/>
-        function diminui(n1, n2){<br/>
-            return n1 - n2;<br/>
-        }<br/>
-<br/>
-        function multiplica(n1, n2){<br/>
-            return n1 * n2;<br/>
-        }<br/>
-<br/>
-        function divide(n1, n2){<br/>
-            return n1 / n2;<br/>
-        }<br/>
-        <br/>
-        
-    </h:body>
-</html>
+package ${packageName};
 
+import java.io.InputStreamReader;
+import javax.enterprise.inject.Produces;
+import javax.faces.context.FacesContext;
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
+@javax.annotation.Generated(value = "tdc2013.repository.processors", date = "${date}")
+public class ${interfaceName}ScriptsProvider {
+
+    @Produces
+    public ${interfacePath} getScript() throws ScriptException{
+        ScriptEngine engine = new ScriptEngineManager().getEngineByName("${engine}");
+   
+        engine.eval(new InputStreamReader(FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("${script}")));
+        
+        return Invocable.class.cast(engine).getInterface(${interfacePath}.class);
+    }
+
+}

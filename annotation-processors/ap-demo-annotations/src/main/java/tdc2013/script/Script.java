@@ -28,54 +28,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package tdc2013.web;
+package tdc2013.script;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import tdc2013.hibernate.model.Pessoa;
-import tdc2013.hibernate.model.PessoaRepository;
-import tdc2013.hibernate.model.Sexo;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-/**
- *
- * @author klaus.boeing
- */
-@Named
-@Stateless
-public class PessoaService {
-    
-    @Inject PessoaRepository pessoaRepository;
-    @Inject EntityManager em;
-    @Inject Calculos calculos;
-    
-    public Pessoa getResultFind1(){
-        Pessoa pessoa = new Pessoa();
-        pessoa.setId(1l);
-        pessoa.setNome("Mr. Jonnes");
-        pessoa.setSexo(Sexo.MASCULINO);
-        
-        em.merge(pessoa);
-        
-        return pessoaRepository.findBySexoEqual(Sexo.MASCULINO);
-    }
-    
-    public int soma(int n1, int n2){
-        return calculos.soma(n1, n2);
-    }
-    public int diminui(int n1, int n2){
-        return calculos.diminui(n1, n2);
-    }
-    public double divide(int n1, int n2){
-        return calculos.divide(n1, n2);
-    }
-    public int multiplica(int n1, int n2){
-        return calculos.multiplica(n1, n2);
-    }
-    
+@Retention(RetentionPolicy.SOURCE)
+@Target(ElementType.TYPE)
+public @interface Script {
+    String value();
+    String engine() default "js";
 }
