@@ -79,6 +79,7 @@ public class TypeDefEnumClassVisitor extends AbstractTypeDefVisitor<Void, Set<St
             if (ee.getSimpleName().contentEquals("value")) {
                 final String enumClassName = entry.getValue().getValue().toString();
                 if (!isSubtype(enumClassName, "tdc2013.hibernate.EnumValue")) {
+//                    TODO Ainda falta validar se typeClass = EnumValueUserType.class
                     processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
                             enumClassName + " deve implementar tdc2013.hibernate.EnumValue.", ee, a, entry.getValue());
                 }
