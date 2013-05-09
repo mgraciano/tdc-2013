@@ -50,8 +50,6 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.Elements;
-import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
@@ -121,11 +119,8 @@ public class TypeValueProcessor extends AbstractProcessor {
             final RoundEnvironment env) {
         updateEnumValueCache(env);
 
-        final Elements elements = processingEnv.getElementUtils();
-        final Types types = processingEnv.getTypeUtils();
-
         for (Element root : env.getRootElements()) {
-            root.accept(new TypdeDefsVisitor(), null);
+            root.accept(new TypdeDefsVisitor(processingEnv), null);
         }
 //        for (TypeElement te : annotations) {
 //            if (!te.getQualifiedName().contentEquals(TypeDefs.class.getName())) {

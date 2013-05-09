@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
@@ -46,6 +47,12 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.AbstractElementVisitor7;
 
 public class TypdeDefsVisitor extends AbstractElementVisitor7<Void, Void> {
+
+    private final ProcessingEnvironment processingEnv;
+
+    public TypdeDefsVisitor(ProcessingEnvironment processingEnv) {
+        this.processingEnv = processingEnv;
+    }
 
     @Override
     public Void visitPackage(PackageElement e, Void p) {
@@ -61,6 +68,7 @@ public class TypdeDefsVisitor extends AbstractElementVisitor7<Void, Void> {
                     entrySet()) {
                 final AnnotationValue typeDef = entry.getValue();
                 typeDef.accept(new TypeDefNameVisitor(), typesNames);
+                typeDef.accept(new TypeDefEnumClassVisitor(processingEnv), typesNames);
             }
         }
 
