@@ -28,34 +28,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package tdc2013.repository.processors;
+package tdc2013.hibernate.processors;
 
-import java.io.IOException;
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.Writer;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
+import javax.lang.model.element.ExecutableElement;
 
-public class FreemarkerUtils {
+public class TypeDefNameVisitor extends AbstractTypeDefVisitor<Void, Set<String>> {
 
-    private static Configuration cfg = new Configuration();
-
-    public static void parseTemplate(Writer writer, Object obj, String templateName) throws TemplateException, IOException {
-        cfg.setClassForTemplateLoading(FreemarkerUtils.class, "/");
-        cfg.setObjectWrapper(new DefaultObjectWrapper());
-
-        Template t = cfg.getTemplate(templateName);
-        t.process(obj, writer);
+    @Override
+    public Void visitAnnotation(AnnotationMirror a, Set<String> p) {
+        for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : a.getElementValues().entrySet()) {
+            final ExecutableElement ee = entry.getKey();
+            if (ee.getSimpleName().contentEquals("name")) {
+                p.add(entry.getValue().getValue().toString());
+            }
+        }
+        return null;
     }
 
-    public static void main(String[] args) throws IOException, TemplateException {
-        Map map = new HashMap();
-        map.put("name", "Teste");
-        FreemarkerUtils.parseTemplate(new FileWriter(File.createTempFile("testestes", "sasdteste")), map, "RepositoryClass.ftl");
-    }
 }

@@ -87,11 +87,10 @@ public class TypeValueProcessor extends AbstractProcessor {
                     StandardLocation.SOURCE_OUTPUT, "", resourceName);
             enumValueClasses.addAll(gson.<Set<String>>fromJson(resource.
                     openReader(true), new TypeToken<Set<String>>() {
-            }.getType()));
+                    }.getType()));
         } catch (FileNotFoundException ex) {
             /*
-             * Suppressed exception because it gonna happen always the clean
-             * target is executed before the build
+             * Suppressed exception because it gonna happen always the clean target is executed before the build
              */
         } catch (IOException ex) {
             final StringWriter sw = new StringWriter();
@@ -118,15 +117,60 @@ public class TypeValueProcessor extends AbstractProcessor {
 
     private void handleProcess(final Set<? extends TypeElement> annotations,
             final RoundEnvironment env) {
+        updateEnumValueCache(env);
+
+        for (Element root : env.getRootElements()) {
+            root.accept(new TypdeDefsVisitor(processingEnv), null);
+        }
+//        for (TypeElement te : annotations) {
+//            if (!te.getQualifiedName().contentEquals(TypeDefs.class.getName())) {
+//                continue;
+//            }
+//
+//            Logger.getGlobal().log(Level.WARNING, "Processando {0}...", te.toString());
+//            te.accept(new TypdeDefsVisitor(), null);
+//            for (Element e : te.getEnclosedElements()) {
+//                Logger.getGlobal().log(Level.WARNING, ">>> E {0}", e.toString());
+//                for (Element element : e.getEnclosedElements()) {
+//                    Logger.getGlobal().log(Level.WARNING, ">>> El {0}", element.toString());
+//                }
+//                e.accept(new TypdeDefsVisitor(), null);
+//            }
+//            element.accept(new ElementKindVisitor7<>(), env);, te);
+//            for (Element e : te.getEnclosedElements()) {
+//                Logger.getGlobal().log(Level.WARNING, ">>> E {0}", e.toString());
+//                for (Element element : e.getEnclosedElements()) {
+//                    Logger.getGlobal().log(Level.WARNING, ">>> El {0}", element.toString());
+//                }
+//            }
+//            element.accept(new ElementKindVisitor7<>(), env);
+//            for (AnnotationMirror am : te.getAnnotationMirrors()) {
+//                if (am.getAnnotationType().asElement().) {
+//
+//                }
+//                final TypeDefs typeDefs = ;
+//            }
+//
+//            for (TypeDef typeDef : typeDefs.value()) {
+//                Logger.getGlobal().warning(">>>>> " + typeDef.name());
+//                if (typeDef.typeClass().isAssignableFrom(EnumValueUserType.class)) {
+//                    processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
+//                            "EnumValueUserType.", element);
+//                }
+//            }
+//        }
+    }
+
+    private void updateEnumValueCache(final RoundEnvironment env) {
         FOUND:
         for (Element element : env.getRootElements()) {
             if (element.getKind() != ElementKind.ENUM) {
                 continue;
             }
 
-            final TypeElement typeElement = (TypeElement)element;
+            final TypeElement typeElement = (TypeElement) element;
             for (TypeMirror tm : typeElement.getInterfaces()) {
-                final TypeElement interfaces = (TypeElement)processingEnv.
+                final TypeElement interfaces = (TypeElement) processingEnv.
                         getTypeUtils().asElement(tm);
                 if (!interfaces.getQualifiedName().contentEquals(
                         "tdc2013.hibernate.EnumValue")) {

@@ -28,10 +28,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.repository.processors;
 
 import java.util.ArrayList;
@@ -39,10 +35,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-/**
- *
- * @author klaus.boeing
- */
 public class QueryMethodBuilder {
 
     private String entityName;
@@ -57,7 +49,7 @@ public class QueryMethodBuilder {
 
     public String build() {
         StringBuilder queryBuilder;
-        String normalizePattern = "(".concat(RELATIONAL_OPERATORS_PATTERN).concat("|").concat(LOGICAL_OPERATORS_PATTERN).concat( ")" );
+        String normalizePattern = "(".concat(RELATIONAL_OPERATORS_PATTERN).concat("|").concat(LOGICAL_OPERATORS_PATTERN).concat(")");
         String normalizedString = fluentQueryString.replaceAll("findBy", "").replaceAll(normalizePattern, "|$1|");
 
         try (Scanner scanner = new Scanner(normalizedString)) {
@@ -84,9 +76,9 @@ public class QueryMethodBuilder {
             expressions.add(expression);
 
             queryBuilder = new StringBuilder();
-            queryBuilder.append("Select entity From ");
+            queryBuilder.append("SELECT entity FROM ");
             queryBuilder.append(entityName);
-            queryBuilder.append(" entity Where ");
+            queryBuilder.append(" entity WHERE ");
 
             for (Expression exp : expressions) {
                 queryBuilder.append(exp.getQueryExpression("entity"));
@@ -102,23 +94,23 @@ public class QueryMethodBuilder {
         private String relationalOperator;
         private String logicalOperator;
 
-        public Expression(String property) {
+        Expression(String property) {
             this.property = property.substring(0, 1).toLowerCase().concat(property.substring(1));
         }
-       
+
         private String getQueryExpression(String alias) {
             StringBuilder builder = new StringBuilder();
             builder.append(alias);
             builder.append(".");
             builder.append(property);
             builder.append(" ");
-            
+
             switch (relationalOperator) {
                 case "Equal":
                     builder.append(" = ? ");
                     break;
                 case "Between":
-                    builder.append(" between ? and ? ");
+                    builder.append(" BETWEEN ? AND ? ");
                     break;
                 case "GreaterThan":
                     builder.append(" > ? ");
@@ -127,10 +119,10 @@ public class QueryMethodBuilder {
                     builder.append(" >= ? ");
                     break;
                 case "IsNotNull":
-                    builder.append(" is not null ");
+                    builder.append(" IS NOT NULL ");
                     break;
                 case "IsNull":
-                    builder.append(" is null ");
+                    builder.append(" IS NULL ");
                     break;
                 case "LessThan":
                     builder.append(" <? ");
@@ -139,7 +131,7 @@ public class QueryMethodBuilder {
                     builder.append(" <=? ");
                     break;
                 case "Like":
-                    builder.append(" like ? ");
+                    builder.append(" LIKE ? ");
                     break;
                 case "NotEqual":
                     builder.append(" <> ? ");

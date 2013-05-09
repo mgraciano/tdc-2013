@@ -1,5 +1,5 @@
 tdc2013.link.processors.DocumentationProcessor
-tdc2013.processors.InvalidBooleanGetterProcessor
+tdc2013.basic.processors.InvalidBooleanGetterProcessor
 tdc2013.hibernate.processors.TypeValueProcessor
 tdc2013.repository.processors.RepositoryProcessor
 tdc2013.script.processors.ScriptProcessor

@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package tdc2013.processors;
+package tdc2013.basic.processors;
 
 import java.util.List;
 import java.util.Set;
