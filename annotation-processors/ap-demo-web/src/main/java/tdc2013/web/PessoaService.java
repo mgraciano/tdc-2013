@@ -60,9 +60,10 @@ public class PessoaService {
         pessoa.setNome("Mr. Jonnes");
         pessoa.setSexo(Sexo.MASCULINO);
         
-        em.merge(pessoa);
+       // em.merge(pessoa);
         
-        return pessoaRepository.findBySexoEqual(Sexo.MASCULINO);
+        //return pessoaRepository.findBySexoEqual(Sexo.MASCULINO);
+        return pessoa;
     }
     
     public int soma(int n1, int n2){

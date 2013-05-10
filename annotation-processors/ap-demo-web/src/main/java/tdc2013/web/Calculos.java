@@ -40,7 +40,7 @@ import tdc2013.script.Script;
  *
  * @author klaus.boeing
  */
-@Script("/resources/js/Calculos.js")
+@Script(value="/resources/js/Calculos.js", engine = "nashorn")
 public interface Calculos {
     public int soma(int n1, int n2);
 

@@ -18,8 +18,12 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencies>
+        <dependency>
+            <groupId>com.oracle.nashorn</groupId>
+            <artifactId>nashorn</artifactId>
+            <version>1000</version>
+        </dependency>
         <dependency>
             <groupId>tdc-2013</groupId>
             <artifactId>annotation-processors-demo-processors</artifactId>
@@ -119,6 +123,18 @@
             <id>eclipselink</id>
             <layout>default</layout>
             <name>Repository for library EclipseLink (JPA 2.0)</name>
+        </repository>
+        <repository>
+            <id>lib</id>
+            <name>lib</name>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <url>file://${project.basedir}/lib</url>
         </repository>
     </repositories>
 </project>
