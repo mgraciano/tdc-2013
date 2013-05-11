@@ -30,22 +30,25 @@
  */
 package tdc2013.hibernate.processors;
 
-import java.util.Map;
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.AnnotationValue;
-import javax.lang.model.element.ExecutableElement;
+import java.util.HashSet;
+import java.util.Set;
+import javax.lang.model.element.PackageElement;
 
-public class TypeDefNameVisitor extends AbstractTypeDefVisitor<Void, TypdeDefsInfo> {
+public class TypdeDefsInfo {
 
-    @Override
-    public Void visitAnnotation(AnnotationMirror a, TypdeDefsInfo info) {
-        for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : a.getElementValues().entrySet()) {
-            final ExecutableElement ee = entry.getKey();
-            if (ee.getSimpleName().contentEquals("name")) {
-                info.getTypesNames().add(entry.getValue().getValue().toString());
-            }
-        }
-        return null;
+    private final PackageElement rootElement;
+    private final Set<String> typesNames = new HashSet<>();
+
+    public TypdeDefsInfo(PackageElement rootElement) {
+        this.rootElement = rootElement;
+    }
+
+    public PackageElement getRootElement() {
+        return rootElement;
+    }
+
+    public Set<String> getTypesNames() {
+        return typesNames;
     }
 
 }

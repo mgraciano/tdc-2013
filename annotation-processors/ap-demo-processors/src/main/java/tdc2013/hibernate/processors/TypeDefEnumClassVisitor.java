@@ -31,7 +31,6 @@
 package tdc2013.hibernate.processors;
 
 import java.util.Map;
-import java.util.Set;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
@@ -41,7 +40,7 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
-public class TypeDefEnumClassVisitor extends AbstractTypeDefVisitor<Void, Set<String>> {
+public class TypeDefEnumClassVisitor extends AbstractTypeDefVisitor<Void, TypdeDefsInfo> {
 
     private final ProcessingEnvironment processingEnv;
 
@@ -50,13 +49,13 @@ public class TypeDefEnumClassVisitor extends AbstractTypeDefVisitor<Void, Set<St
     }
 
     @Override
-    public Void visitAnnotation(final AnnotationMirror a, final Set<String> p) {
-        visitTypeDef(a, p);
-        visitTypeDefParameterAnn(a, p);
+    public Void visitAnnotation(final AnnotationMirror a, final TypdeDefsInfo info) {
+        visitTypeDef(a, info);
+        visitTypeDefParameterAnn(a, info);
         return null;
     }
 
-    private void visitTypeDef(final AnnotationMirror a, final Set<String> p) {
+    private void visitTypeDef(final AnnotationMirror a, final TypdeDefsInfo info) {
         if (!isSameType(a.getAnnotationType(), "org.hibernate.annotations.TypeDef")) {
             return;
         }
@@ -64,12 +63,12 @@ public class TypeDefEnumClassVisitor extends AbstractTypeDefVisitor<Void, Set<St
         for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : a.getElementValues().entrySet()) {
             final ExecutableElement ee = entry.getKey();
             if (ee.getSimpleName().contentEquals("parameters")) {
-                entry.getValue().accept(this, p);
+                entry.getValue().accept(this, info);
             }
         }
     }
 
-    private void visitTypeDefParameterAnn(final AnnotationMirror a, final Set<String> p) {
+    private void visitTypeDefParameterAnn(final AnnotationMirror a, final TypdeDefsInfo info) {
         if (!isSameType(a.getAnnotationType(), "org.hibernate.annotations.Parameter")) {
             return;
         }
@@ -81,7 +80,8 @@ public class TypeDefEnumClassVisitor extends AbstractTypeDefVisitor<Void, Set<St
                 if (!isSubtype(enumClassName, "tdc2013.hibernate.EnumValue")) {
 //                    TODO Ainda falta validar se typeClass = EnumValueUserType.class
                     processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
-                            enumClassName + " deve implementar tdc2013.hibernate.EnumValue.", ee, a, entry.getValue());
+                            enumClassName + " deve implementar tdc2013.hibernate.EnumValue.", info.getRootElement(), a,
+                            entry.getValue());
                 }
             }
         }
