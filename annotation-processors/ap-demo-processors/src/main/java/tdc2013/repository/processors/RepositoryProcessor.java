@@ -95,6 +95,7 @@ public class RepositoryProcessor extends AbstractProcessor {
                     }
 
                     FreemarkerUtils.parseTemplate(bw, info, "RepositoryClass.ftl");
+                    bw.flush();
                 } catch (TemplateException ex) {
                     Logger.getLogger(RepositoryProcessor.class.getName()).log(Level.SEVERE, null, ex);
                 }
