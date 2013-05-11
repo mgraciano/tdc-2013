@@ -62,6 +62,14 @@ public class TypeDefEnumClassVisitor extends AbstractTypeDefVisitor<Void, TypdeD
 
         for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : a.getElementValues().entrySet()) {
             final ExecutableElement ee = entry.getKey();
+            if (ee.getSimpleName().contentEquals("typeClass") && !entry.getValue().getValue().toString().equals(
+                    "tdc2013.hibernate.EnumValueUserType")) {
+                return;
+            }
+        }
+
+        for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : a.getElementValues().entrySet()) {
+            final ExecutableElement ee = entry.getKey();
             if (ee.getSimpleName().contentEquals("parameters")) {
                 entry.getValue().accept(this, info);
             }
@@ -78,7 +86,6 @@ public class TypeDefEnumClassVisitor extends AbstractTypeDefVisitor<Void, TypdeD
             if (ee.getSimpleName().contentEquals("value")) {
                 final String enumClassName = entry.getValue().getValue().toString();
                 if (!isSubtype(enumClassName, "tdc2013.hibernate.EnumValue")) {
-//                    TODO Ainda falta validar se typeClass = EnumValueUserType.class
                     processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
                             enumClassName + " deve implementar tdc2013.hibernate.EnumValue.", info.getRootElement(), a,
                             entry.getValue());
