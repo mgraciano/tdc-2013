@@ -31,7 +31,9 @@
 
 package tdc2013.hibernate.processors;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.processing.ProcessingEnvironment;
@@ -44,7 +46,7 @@ import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.AbstractElementVisitor7;
 
-public class TypdeDefsVisitor extends AbstractElementVisitor7<Void, Void> {
+public class TypdeDefsVisitor extends AbstractElementVisitor7<Set<String>, Void> {
 
     private final ProcessingEnvironment processingEnv;
 
@@ -53,7 +55,7 @@ public class TypdeDefsVisitor extends AbstractElementVisitor7<Void, Void> {
     }
 
     @Override
-    public Void visitPackage(PackageElement e, Void p) {
+    public Set<String> visitPackage(PackageElement e, Void p) {
         final TypdeDefsInfo info = new TypdeDefsInfo(e);
 
         Logger.getGlobal().log(Level.WARNING, "PackageElement {0}...", e.toString());
@@ -71,30 +73,30 @@ public class TypdeDefsVisitor extends AbstractElementVisitor7<Void, Void> {
         }
 
         Logger.getGlobal().log(Level.WARNING, "Names {0}...", info.toString());
-        return null;
+        return info.getTypesNames();
     }
 
     @Override
-    public Void visitType(TypeElement e, Void p) {
+    public Set<String> visitType(TypeElement e, Void p) {
         Logger.getGlobal().log(Level.WARNING, "TypeElement {0}...", e.toString());
-        return null;
+        return Collections.emptySet();
     }
 
     @Override
-    public Void visitVariable(VariableElement e, Void p) {
+    public Set<String> visitVariable(VariableElement e, Void p) {
         Logger.getGlobal().log(Level.WARNING, "VariableElement {0}...", e.toString());
-        return null;
+        return Collections.emptySet();
     }
 
     @Override
-    public Void visitExecutable(ExecutableElement e, Void p) {
+    public Set<String> visitExecutable(ExecutableElement e, Void p) {
         Logger.getGlobal().log(Level.WARNING, "ExecutableElement {0}...", e.toString());
-        return null;
+        return Collections.emptySet();
     }
 
     @Override
-    public Void visitTypeParameter(TypeParameterElement e, Void p) {
+    public Set<String> visitTypeParameter(TypeParameterElement e, Void p) {
         Logger.getGlobal().log(Level.WARNING, "TypeParameterElement {0}...", e.toString());
-        return null;
+        return Collections.emptySet();
     }
 }

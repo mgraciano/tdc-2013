@@ -39,17 +39,21 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Completion;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
@@ -60,7 +64,7 @@ public class TypeValueProcessor extends AbstractProcessor {
 
     private static final String resourceName = "enum_value_names_apt_cache";
     //Need to be static because some APT limitations, mainly when using it inside tools like NetBeans
-    private static final Set<String> enumValueClasses = new HashSet<>();
+    private static final Set<String> registeredTypesName = new HashSet<>();
     //Using pretty printing for demonstration purpose
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -85,7 +89,7 @@ public class TypeValueProcessor extends AbstractProcessor {
         try {
             final FileObject resource = filer.getResource(
                     StandardLocation.SOURCE_OUTPUT, "", resourceName);
-            enumValueClasses.addAll(gson.<Set<String>>fromJson(resource.
+            registeredTypesName.addAll(gson.<Set<String>>fromJson(resource.
                     openReader(true), new TypeToken<Set<String>>() {
                     }.getType()));
         } catch (FileNotFoundException ex) {
@@ -104,7 +108,7 @@ public class TypeValueProcessor extends AbstractProcessor {
 
         try (Writer w = filer.createResource(
                 StandardLocation.SOURCE_OUTPUT, "", resourceName).openWriter()) {
-            w.append(gson.toJson(enumValueClasses));
+            w.append(gson.toJson(registeredTypesName));
             w.flush();
         } catch (IOException ex) {
             final StringWriter sw = new StringWriter();
@@ -120,7 +124,7 @@ public class TypeValueProcessor extends AbstractProcessor {
         updateEnumValueCache(env);
 
         for (Element root : env.getRootElements()) {
-            root.accept(new TypdeDefsVisitor(processingEnv), null);
+            registeredTypesName.addAll(root.accept(new TypdeDefsVisitor(processingEnv), null));
         }
 //        for (TypeElement te : annotations) {
 //            if (!te.getQualifiedName().contentEquals(TypeDefs.class.getName())) {
@@ -162,23 +166,33 @@ public class TypeValueProcessor extends AbstractProcessor {
     }
 
     private void updateEnumValueCache(final RoundEnvironment env) {
-        FOUND:
-        for (Element element : env.getRootElements()) {
-            if (element.getKind() != ElementKind.ENUM) {
-                continue;
-            }
+    }
 
-            final TypeElement typeElement = (TypeElement) element;
-            for (TypeMirror tm : typeElement.getInterfaces()) {
-                final TypeElement interfaces = (TypeElement) processingEnv.
-                        getTypeUtils().asElement(tm);
-                if (!interfaces.getQualifiedName().contentEquals(
-                        "tdc2013.hibernate.EnumValue")) {
-                    break FOUND;
-                }
-            }
-
-            enumValueClasses.add(typeElement.getQualifiedName().toString());
+    @Override
+    public Iterable<? extends Completion> getCompletions(final Element element,
+            final AnnotationMirror annotation, final ExecutableElement member,
+            final String userText) {
+        final Elements elements = processingEnv.getElementUtils();
+        final Types types = processingEnv.getTypeUtils();
+        if (!types.isSameType(types.erasure(annotation.getAnnotationType()),
+                types.erasure(elements.getTypeElement("org.hibernate.annotations.Type").asType()))) {
+            return super.getCompletions(element, annotation, member, userText);
         }
+
+        final Set<Completion> c = new LinkedHashSet<>(registeredTypesName.size());
+        for (final String namedQuery : registeredTypesName) {
+            c.add(new Completion() {
+                @Override
+                public String getValue() {
+                    return '\"' + namedQuery + '\"';
+                }
+
+                @Override
+                public String getMessage() {
+                    return null;
+                }
+            });
+        }
+        return c;
     }
 }
