@@ -40,15 +40,18 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Completion;
 import javax.annotation.processing.Filer;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
@@ -126,43 +129,30 @@ public class TypeValueProcessor extends AbstractProcessor {
         for (Element root : env.getRootElements()) {
             registeredTypesName.addAll(root.accept(new TypdeDefsVisitor(processingEnv), null));
         }
-//        for (TypeElement te : annotations) {
-//            if (!te.getQualifiedName().contentEquals(TypeDefs.class.getName())) {
-//                continue;
-//            }
-//
-//            Logger.getGlobal().log(Level.WARNING, "Processando {0}...", te.toString());
-//            te.accept(new TypdeDefsVisitor(), null);
-//            for (Element e : te.getEnclosedElements()) {
-//                Logger.getGlobal().log(Level.WARNING, ">>> E {0}", e.toString());
-//                for (Element element : e.getEnclosedElements()) {
-//                    Logger.getGlobal().log(Level.WARNING, ">>> El {0}", element.toString());
-//                }
-//                e.accept(new TypdeDefsVisitor(), null);
-//            }
-//            element.accept(new ElementKindVisitor7<>(), env);, te);
-//            for (Element e : te.getEnclosedElements()) {
-//                Logger.getGlobal().log(Level.WARNING, ">>> E {0}", e.toString());
-//                for (Element element : e.getEnclosedElements()) {
-//                    Logger.getGlobal().log(Level.WARNING, ">>> El {0}", element.toString());
-//                }
-//            }
-//            element.accept(new ElementKindVisitor7<>(), env);
-//            for (AnnotationMirror am : te.getAnnotationMirrors()) {
-//                if (am.getAnnotationType().asElement().) {
-//
-//                }
-//                final TypeDefs typeDefs = ;
-//            }
-//
-//            for (TypeDef typeDef : typeDefs.value()) {
-//                Logger.getGlobal().warning(">>>>> " + typeDef.name());
-//                if (typeDef.typeClass().isAssignableFrom(EnumValueUserType.class)) {
-//                    processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
-//                            "EnumValueUserType.", element);
-//                }
-//            }
-//        }
+
+        final Elements elements = processingEnv.getElementUtils();
+        for (Element element : env.getElementsAnnotatedWith(elements.getTypeElement("org.hibernate.annotations.Type"))) {
+            for (AnnotationMirror am : element.getAnnotationMirrors()) {
+                if (!am.getAnnotationType().asElement().getSimpleName().contentEquals("Type")) {
+                    continue;
+                }
+
+                for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : am.getElementValues().
+                        entrySet()) {
+                    final ExecutableElement ee = entry.getKey();
+                    final AnnotationValue av = entry.getValue();
+                    if (!ee.getSimpleName().contentEquals("type")) {
+                        continue;
+                    }
+
+                    final String typeName = av.getValue().toString();
+                    if (!registeredTypesName.contains(typeName)) {
+                        processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
+                                "O tipo " + typeName + " ainda não foi definido via TypeDef[s]", element, am, av);
+                    }
+                }
+            }
+        }
     }
 
     private void updateEnumValueCache(final RoundEnvironment env) {
@@ -194,5 +184,22 @@ public class TypeValueProcessor extends AbstractProcessor {
             });
         }
         return c;
+    }
+
+    private static class TypeElementVisitor extends AbstractElementVisitor<Void, Set<String>> {
+
+        private final Element element;
+
+        TypeElementVisitor(final ProcessingEnvironment processingEnv, final Element element) {
+            super(processingEnv);
+            this.element = element;
+        }
+
+        @Override
+        public Void visitExecutable(ExecutableElement e, Set<String> p) {
+//            processingEnv.getMessager().printMessage(Kind.ERROR, "Erro 1", element);
+            return null;
+        }
+
     }
 }

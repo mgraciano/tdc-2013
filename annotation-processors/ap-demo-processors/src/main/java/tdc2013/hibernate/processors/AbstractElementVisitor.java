@@ -31,69 +31,51 @@
 
 package tdc2013.hibernate.processors;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.util.AbstractElementVisitor7;
 
-public class TypdeDefsVisitor extends AbstractElementVisitor<Set<String>, Void> {
+public abstract class AbstractElementVisitor<R, P> extends AbstractElementVisitor7<R, P> {
 
-    public TypdeDefsVisitor(ProcessingEnvironment processingEnv) {
-        super(processingEnv);
+    protected final ProcessingEnvironment processingEnv;
+
+    public AbstractElementVisitor(ProcessingEnvironment processingEnv) {
+        this.processingEnv = processingEnv;
     }
 
     @Override
-    public Set<String> visitPackage(PackageElement e, Void p) {
-        final TypdeDefsInfo info = new TypdeDefsInfo(e);
-
-        Logger.getGlobal().log(Level.WARNING, "PackageElement {0}...", e.toString());
-        for (AnnotationMirror am : e.getAnnotationMirrors()) {
-            if (!am.getAnnotationType().asElement().getSimpleName().contentEquals("TypeDefs")) {
-                continue;
-            }
-
-            for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : am.getElementValues().
-                    entrySet()) {
-                final AnnotationValue typeDef = entry.getValue();
-                typeDef.accept(new TypeDefNameVisitor(), info);
-                typeDef.accept(new TypeDefEnumClassVisitor(processingEnv), info);
-            }
-        }
-
-        Logger.getGlobal().log(Level.WARNING, "Names {0}...", info.toString());
-        return info.getTypesNames();
+    public R visitPackage(PackageElement e, P p) {
+        Logger.getGlobal().log(Level.WARNING, "visitPackage {0}...", e.toString());
+        return null;
     }
 
     @Override
-    public Set<String> visitType(TypeElement e, Void p) {
+    public R visitType(TypeElement e, P p) {
         Logger.getGlobal().log(Level.WARNING, "TypeElement {0}...", e.toString());
-        return Collections.emptySet();
+        return null;
     }
 
     @Override
-    public Set<String> visitVariable(VariableElement e, Void p) {
+    public R visitVariable(VariableElement e, P p) {
         Logger.getGlobal().log(Level.WARNING, "VariableElement {0}...", e.toString());
-        return Collections.emptySet();
+        return null;
     }
 
     @Override
-    public Set<String> visitExecutable(ExecutableElement e, Void p) {
+    public R visitExecutable(ExecutableElement e, P p) {
         Logger.getGlobal().log(Level.WARNING, "ExecutableElement {0}...", e.toString());
-        return Collections.emptySet();
+        return null;
     }
 
     @Override
-    public Set<String> visitTypeParameter(TypeParameterElement e, Void p) {
+    public R visitTypeParameter(TypeParameterElement e, P p) {
         Logger.getGlobal().log(Level.WARNING, "TypeParameterElement {0}...", e.toString());
-        return Collections.emptySet();
+        return null;
     }
 }
