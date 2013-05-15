@@ -41,14 +41,11 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.TypeParameterElement;
-import javax.lang.model.element.VariableElement;
 
 public class TypdeDefsVisitor extends AbstractElementVisitor<Set<String>, Void> {
 
     public TypdeDefsVisitor(ProcessingEnvironment processingEnv) {
-        super(processingEnv);
+        super(processingEnv, Collections.<String>emptySet());
     }
 
     @Override
@@ -71,29 +68,5 @@ public class TypdeDefsVisitor extends AbstractElementVisitor<Set<String>, Void> 
 
         Logger.getGlobal().log(Level.WARNING, "Names {0}...", info.toString());
         return info.getTypesNames();
-    }
-
-    @Override
-    public Set<String> visitType(TypeElement e, Void p) {
-        Logger.getGlobal().log(Level.WARNING, "TypeElement {0}...", e.toString());
-        return Collections.emptySet();
-    }
-
-    @Override
-    public Set<String> visitVariable(VariableElement e, Void p) {
-        Logger.getGlobal().log(Level.WARNING, "VariableElement {0}...", e.toString());
-        return Collections.emptySet();
-    }
-
-    @Override
-    public Set<String> visitExecutable(ExecutableElement e, Void p) {
-        Logger.getGlobal().log(Level.WARNING, "ExecutableElement {0}...", e.toString());
-        return Collections.emptySet();
-    }
-
-    @Override
-    public Set<String> visitTypeParameter(TypeParameterElement e, Void p) {
-        Logger.getGlobal().log(Level.WARNING, "TypeParameterElement {0}...", e.toString());
-        return Collections.emptySet();
     }
 }

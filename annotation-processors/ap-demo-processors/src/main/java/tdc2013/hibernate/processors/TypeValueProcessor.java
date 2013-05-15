@@ -45,7 +45,6 @@ import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Completion;
 import javax.annotation.processing.Filer;
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -148,7 +147,7 @@ public class TypeValueProcessor extends AbstractProcessor {
                     final String typeName = av.getValue().toString();
                     if (!registeredTypesName.contains(typeName)) {
                         processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
-                                "O tipo " + typeName + " ainda não foi definido via TypeDef[s]", element, am, av);
+                                "O tipo " + typeName + " ainda não foi definido via TypeDefs", element, am, av);
                     }
                 }
             }
@@ -184,22 +183,5 @@ public class TypeValueProcessor extends AbstractProcessor {
             });
         }
         return c;
-    }
-
-    private static class TypeElementVisitor extends AbstractElementVisitor<Void, Set<String>> {
-
-        private final Element element;
-
-        TypeElementVisitor(final ProcessingEnvironment processingEnv, final Element element) {
-            super(processingEnv);
-            this.element = element;
-        }
-
-        @Override
-        public Void visitExecutable(ExecutableElement e, Set<String> p) {
-//            processingEnv.getMessager().printMessage(Kind.ERROR, "Erro 1", element);
-            return null;
-        }
-
     }
 }

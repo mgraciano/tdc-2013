@@ -44,38 +44,40 @@ import javax.lang.model.util.AbstractElementVisitor7;
 public abstract class AbstractElementVisitor<R, P> extends AbstractElementVisitor7<R, P> {
 
     protected final ProcessingEnvironment processingEnv;
+    private final R defaultReturn;
 
-    public AbstractElementVisitor(ProcessingEnvironment processingEnv) {
+    public AbstractElementVisitor(final ProcessingEnvironment processingEnv, final R defaultReturn) {
         this.processingEnv = processingEnv;
+        this.defaultReturn = defaultReturn;
     }
 
     @Override
     public R visitPackage(PackageElement e, P p) {
         Logger.getGlobal().log(Level.WARNING, "visitPackage {0}...", e.toString());
-        return null;
+        return defaultReturn;
     }
 
     @Override
     public R visitType(TypeElement e, P p) {
         Logger.getGlobal().log(Level.WARNING, "TypeElement {0}...", e.toString());
-        return null;
+        return defaultReturn;
     }
 
     @Override
     public R visitVariable(VariableElement e, P p) {
         Logger.getGlobal().log(Level.WARNING, "VariableElement {0}...", e.toString());
-        return null;
+        return defaultReturn;
     }
 
     @Override
     public R visitExecutable(ExecutableElement e, P p) {
         Logger.getGlobal().log(Level.WARNING, "ExecutableElement {0}...", e.toString());
-        return null;
+        return defaultReturn;
     }
 
     @Override
     public R visitTypeParameter(TypeParameterElement e, P p) {
         Logger.getGlobal().log(Level.WARNING, "TypeParameterElement {0}...", e.toString());
-        return null;
+        return defaultReturn;
     }
 }
