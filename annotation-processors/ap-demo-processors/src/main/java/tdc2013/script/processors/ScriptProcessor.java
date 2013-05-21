@@ -37,15 +37,19 @@ package tdc2013.script.processors;
 import freemarker.template.TemplateException;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Completion;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.tools.JavaFileObject;
@@ -94,5 +98,45 @@ public class ScriptProcessor extends AbstractProcessor {
             }
         }
         return true;
+    }
+
+    @Override
+    public Iterable<? extends Completion> getCompletions(Element element, AnnotationMirror annotation,
+            ExecutableElement member, String userText) {
+        if (!member.getSimpleName().contentEquals("engine")) {
+            return super.getCompletions(element, annotation, member, userText);
+        }
+
+        return Arrays.asList(new Completion() {
+            @Override
+            public String getValue() {
+                return "\"js\"";
+            }
+
+            @Override
+            public String getMessage() {
+                return "Motor de script JavaScript padrão da plataforma.";
+            }
+        }, new Completion() {
+            @Override
+            public String getValue() {
+                return "\"javascript\"";
+            }
+
+            @Override
+            public String getMessage() {
+                return "Motor de script JavaScript padrão da plataforma.";
+            }
+        }, new Completion() {
+            @Override
+            public String getValue() {
+                return "\"nashorn\"";
+            }
+
+            @Override
+            public String getMessage() {
+                return "Motor de script JavaScript Nashorn, desenvolvido pela Oracle.";
+            }
+        });
     }
 }
