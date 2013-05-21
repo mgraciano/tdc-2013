@@ -28,19 +28,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.web;
 
 import tdc2013.script.Script;
 
-/**
- *
- * @author klaus.boeing
- */
-@Script(value="/resources/js/Calculos.js", engine = "nashorn")
+@Script(value = "/resources/js/Calculos.js", engine = "nashorn")
 public interface Calculos {
     public int soma(int n1, int n2);
 
