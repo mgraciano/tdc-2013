@@ -34,6 +34,7 @@ import tdc2013.script.Script;
 
 @Script(value = "/resources/js/Calculos.js", engine = "nashorn")
 public interface Calculos {
+
     public int soma(int n1, int n2);
 
     public int diminui(int n1, int n2);
