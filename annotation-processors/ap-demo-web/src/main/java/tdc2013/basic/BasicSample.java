@@ -28,8 +28,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package tdc2013.link;
+package tdc2013.basic;
 
-@Documentation("http://localhost:8080/annotation-processors-demo-web/")
-public class Index {
+public class BasicSample {
+
+    public Boolean getBoolean() {
+        return Boolean.FALSE;
+    }
 }
