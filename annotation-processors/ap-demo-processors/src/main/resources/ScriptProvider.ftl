@@ -39,6 +39,9 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.io.InputStream;
+import java.util.Scanner;
+import tdc2013.script.ScriptProvider;
 
 @javax.annotation.Generated(value = "tdc2013.repository.processors", date = "${date}")
 public class ${interfaceName}ScriptsProvider {
@@ -47,9 +50,26 @@ public class ${interfaceName}ScriptsProvider {
     public ${interfacePath} getScript() throws ScriptException{
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("${engine}");
    
-        engine.eval(new InputStreamReader(FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("${script}")));
+        engine.eval(getScript("${script}"));
         
         return Invocable.class.cast(engine).getInterface(${interfacePath}.class);
+    }
+
+    private String getScript(String script){
+        String newValue = null;
+        try {
+            Class<ScriptProvider> clazz = (Class<ScriptProvider>) getClass().getClassLoader().loadClass(script);
+            ScriptProvider provider = clazz.newInstance();
+            newValue = provider.getScript();
+        } catch (Exception ex) {
+            InputStream is = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("${script}");
+            if(is == null){
+                is = Thread.currentThread().getContextClassLoader().getResourceAsStream("${script}");
+            }
+            
+            newValue = new Scanner(is).useDelimiter("\\Z").next();
+        }
+        return newValue;
     }
 
 }

@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package tdc2013.web;
+package tdc2013.web.interfaces;
 
 import tdc2013.script.Script;
 

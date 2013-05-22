@@ -30,25 +30,49 @@
  */
 package tdc2013.web;
 
+import java.math.BigDecimal;
 import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Scope;
 import javax.persistence.EntityManager;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
 import tdc2013.hibernate.model.Pessoa;
 import tdc2013.hibernate.model.PessoaRepository;
 import tdc2013.hibernate.model.Sexo;
+import tdc2013.web.interfaces.Calculos;
+import tdc2013.web.interfaces.CustomScriptGroovy;
+import tdc2013.web.interfaces.CustomScriptJavaScript;
+import tdc2013.web.interfaces.CustomScriptPython;
 
 @Named
-@Stateless
+@RequestScoped
 public class PessoaService {
 
     @Inject
     PessoaRepository pessoaRepository;
     @Inject
-    EntityManager em;
-    @Inject
     Calculos calculos;
+    @Inject
+    CustomScriptGroovy scriptGroovy;
+    @Inject
+    CustomScriptJavaScript scriptJavaScript;
+    @Inject
+    CustomScriptPython scriptPython;
+    
+    private String language;
 
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+    
     public Pessoa getResultFind1() {
         Pessoa pessoa = new Pessoa();
         pessoa.setId(1l);
@@ -61,19 +85,33 @@ public class PessoaService {
         return pessoa;
     }
 
-    public int soma(int n1, int n2) {
-        return calculos.soma(n1, n2);
+    public String opJS(int n1, int n2) {
+        return op(scriptJavaScript.soma(n1, n2), scriptJavaScript.diminui(n1, n2), scriptJavaScript.divide(n1, n2), scriptJavaScript.multiplica(n1, n2), "javascript");
     }
 
-    public int diminui(int n1, int n2) {
-        return calculos.diminui(n1, n2);
+    public String opGV(int n1, int n2) {
+        return op(scriptGroovy.soma(n1, n2), scriptGroovy.diminui(n1, n2), scriptGroovy.divide(n1, n2), scriptGroovy.multiplica(n1, n2), "groovy");
     }
-
-    public double divide(int n1, int n2) {
-        return calculos.divide(n1, n2);
+    
+    public String opPY(int n1, int n2) {
+        return op(scriptPython.soma(n1, n2), scriptPython.diminui(n1, n2), scriptPython.divide(n1, n2), scriptPython.multiplica(n1, n2),"python");
     }
-
-    public int multiplica(int n1, int n2) {
-        return calculos.multiplica(n1, n2);
+    
+    public String opJSClientServer(int n1, int n2) {
+        return op(calculos.soma(n1, n2), calculos.diminui(n1, n2), calculos.divide(n1, n2), calculos.multiplica(n1, n2), "nashorn");
+    }
+    
+    private String op(Number n1, Number n2, Number n3, Number n4, String engine){
+        ScriptEngineFactory factory = new ScriptEngineManager().getEngineByName(engine).getFactory(); 
+        StringBuilder builder = new StringBuilder();
+        builder.append("engine name=").append(factory.getEngineName());
+        builder.append("\nengine version=").append(factory.getEngineVersion());
+        builder.append("\nlanguage name=").append(factory.getLanguageName());
+        builder.append("\nextensions=").append(factory.getExtensions());
+        builder.append("\nlanguage version=").append(factory.getLanguageVersion());
+        builder.append("\nnames=").append(factory.getNames());
+        builder.append("\nmime types=").append(factory.getMimeTypes());
+        
+        return String.format("soma = %s\nsubtração=%s\ndivisão=%s\nmultiplicação=%s\n\n%s", n1, n2, n3, n4, builder.toString());
     }
 }
