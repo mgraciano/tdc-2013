@@ -30,26 +30,9 @@
     POSSIBILITY OF SUCH DAMAGE.
 
 -->
- 
 
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span4">
-           <span class="label label-info">Groovy</span>
-            <textarea ui-codemirror="{mode: 'text/x-groovy', lineNumbers: true, matchBrackets: true}" ng-model="codeGroovy"></textarea>
-            <button class="btn btn-primary" ng-click="save(codeGroovy, 'groovy')">Alterar</button>
-        </div>
-        <div class="span4">
-            <span class="label label-warning">JavaScript</span>
-            <textarea ui-codemirror="{mode: 'text/javascript', lineNumbers: true, matchBrackets: true}" ng-model="codeJavaScript"></textarea>
-            <button class="btn btn-primary" ng-click="save(codeJavaScript, 'javaScript')">Alterar</button>
-        </div>
-        <div class="span4">
-            <span class="label label-success">Python</span>
-            <textarea ui-codemirror="{mode: 'text/x-python', lineNumbers: true, matchBrackets: true}" ng-model="codePython"></textarea>
-            <button class="btn btn-primary" ng-click="save(codePython, 'python')">Alterar</button>
-        </div>      
-    </div>
+<div class="span10">
+    <textarea ui-codemirror="{mode: 'text/javascript', lineNumbers: true, matchBrackets: true}" ng-model="code"></textarea>
+    <button class="btn btn-primary" ng-click="save(code)">Executar</button>
+    <textarea readonly="true" ng-model="result" class="input-xxlarge"/>
 </div>
-
-

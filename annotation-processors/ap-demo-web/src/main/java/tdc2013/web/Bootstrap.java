@@ -41,9 +41,12 @@ import javax.persistence.EntityManager;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import tdc2013.hibernate.model.EstadoCivil;
+import tdc2013.hibernate.model.Pessoa;
+import tdc2013.hibernate.model.PessoaRepository;
 import tdc2013.hibernate.model.Script;
 import tdc2013.hibernate.model.ScriptRepository;
-
+import tdc2013.hibernate.model.Sexo;
 
 /**
  * Web application lifecycle listener.
@@ -53,47 +56,92 @@ import tdc2013.hibernate.model.ScriptRepository;
 @Named
 @WebListener()
 public class Bootstrap implements ServletContextListener {
+
     @Inject
     EntityManager em;
-    
-    @Inject ScriptRepository repository;
-    
+    @Inject
+    ScriptRepository scriptRepository;
+    @Inject
+    PessoaRepository pessoaRepository;
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        
+
         String codeGV = new Scanner(getClass().getResourceAsStream("/script.groovy")).useDelimiter("\\Z").next();
         String codeJS = new Scanner(getClass().getResourceAsStream("/script.js")).useDelimiter("\\Z").next();
         String codePY = new Scanner(getClass().getResourceAsStream("/script.py")).useDelimiter("\\Z").next();
-        
+        String codeJSRepository = new Scanner(getClass().getResourceAsStream("/scriptRepository.js")).useDelimiter("\\Z").next();
+
         Script scriptGV = em.find(Script.class, 1L);
         Script scriptJS = em.find(Script.class, 2L);
         Script scriptPY = em.find(Script.class, 3L);
-        
-        if(scriptGV == null){
+        Script scriptJSRepository = em.find(Script.class, 4L);
+
+        if (scriptGV == null) {
             scriptGV = new Script();
             scriptGV.setId(1L);
-            scriptGV.setCode(codeGV);
+            scriptGV.setType("groovy");
         }
-        
-        if(scriptJS == null){
+        scriptGV.setCode(codeGV);
+
+        if (scriptJS == null) {
             scriptJS = new Script();
             scriptJS.setId(2L);
-            scriptJS.setCode(codeJS);
+            scriptJS.setType("javaScript");
         }
-        
-        if(scriptPY == null){
+        scriptJS.setCode(codeJS);
+
+        if (scriptPY == null) {
             scriptPY = new Script();
             scriptPY.setId(3L);
-            scriptPY.setCode(codePY);
+            scriptPY.setType("python");
         }
-        
-        repository.save(scriptGV);
-        repository.save(scriptJS);
-        repository.save(scriptPY);
+        scriptPY.setCode(codePY);
+
+        if (scriptJSRepository == null) {
+            scriptJSRepository = new Script();
+            scriptJSRepository.setId(4L);
+            scriptJSRepository.setType("js");
+        }
+        scriptJSRepository.setCode(codeJSRepository);
+
+        scriptRepository.save(scriptGV);
+        scriptRepository.save(scriptJS);
+        scriptRepository.save(scriptPY);
+        scriptRepository.save(scriptJSRepository);
+
+        Pessoa pessoa1 = new Pessoa();
+        pessoa1.setId(1L);
+        pessoa1.setNome("Carlos da Silva");
+        pessoa1.setEstadoCivil(EstadoCivil.CASADO);
+        pessoa1.setSexo(Sexo.MASCULINO);
+
+        Pessoa pessoa2 = new Pessoa();
+        pessoa2.setId(2L);
+        pessoa2.setNome("Mario de Andrade");
+        pessoa2.setEstadoCivil(EstadoCivil.SOLTEIRO);
+        pessoa2.setSexo(Sexo.MASCULINO);
+
+        Pessoa pessoa3 = new Pessoa();
+        pessoa3.setId(3L);
+        pessoa3.setNome("Cíntia de Souza");
+        pessoa3.setEstadoCivil(EstadoCivil.SOLTEIRO);
+        pessoa3.setSexo(Sexo.FEMININO);
+
+        Pessoa pessoa4 = new Pessoa();
+        pessoa4.setId(4L);
+        pessoa4.setNome("Maria Bernadete");
+        pessoa4.setEstadoCivil(EstadoCivil.SOLTEIRO);
+        pessoa4.setSexo(Sexo.FEMININO);
+
+        pessoaRepository.save(pessoa1);
+        pessoaRepository.save(pessoa2);
+        pessoaRepository.save(pessoa3);
+        pessoaRepository.save(pessoa4);
+
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-       
     }
 }

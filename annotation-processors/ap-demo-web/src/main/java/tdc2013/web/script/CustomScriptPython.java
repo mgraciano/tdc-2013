@@ -32,7 +32,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tdc2013.web.interfaces;
+package tdc2013.web.script;
 
 import tdc2013.script.Script;
 
@@ -40,8 +40,8 @@ import tdc2013.script.Script;
  *
  * @author Klaus Boeing
  */
-@Script(value = "tdc2013.web.ScriptProviderImpl$JavaScript", engine = "javascript")
-public interface CustomScriptJavaScript {
+@Script(value = "tdc2013.web.ScriptProviderImpl$Python", engine = "python")
+public interface CustomScriptPython {
 
     public int soma(int n1, int n2);
 
@@ -49,5 +49,5 @@ public interface CustomScriptJavaScript {
 
     public int multiplica(int n1, int n2);
 
-    public double divide(int n1, int n2);
+    public Number divide(int n1, int n2);
 }

@@ -43,6 +43,9 @@
                         <include>**/src/**</include>
                     </includes>
                     <excludes>
+                        <exclude>**/*.py</exclude>
+                        <exclude>**/*.groovy</exclude>
+                        <exclude>**/*.js</exclude>
                         <exclude>**/target/**</exclude>
                         <exclude>**/.clover/**</exclude>
                     </excludes>

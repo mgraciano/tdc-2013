@@ -44,7 +44,6 @@ import tdc2013.link.Documentation;
 public class Pessoa implements Serializable {
 
     @Id
-    @GeneratedValue
     private Long id;
     private String nome;
     @Enumerated(EnumType.STRING)

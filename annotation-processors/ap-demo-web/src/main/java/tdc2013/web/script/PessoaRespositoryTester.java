@@ -28,15 +28,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package tdc2013.web.interfaces;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package tdc2013.web.script;
 
-public interface CustomScriptJavaScriptClientServer {
+import tdc2013.hibernate.model.PessoaRepository;
+import tdc2013.script.Script;
 
-    public int soma(int n1, int n2);
-
-    public int diminui(int n1, int n2);
-
-    public int multiplica(int n1, int n2);
-
-    public double divide(int n1, int n2);
+@Script(value="tdc2013.web.ScriptProviderImpl$JavaScriptRepository", engine = "rhino")
+public interface PessoaRespositoryTester {
+    
+    public String testPessoaRepository(PessoaRepository repository);
+    
 }

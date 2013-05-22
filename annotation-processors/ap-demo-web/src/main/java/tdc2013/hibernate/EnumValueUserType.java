@@ -46,7 +46,8 @@ import org.hibernate.usertype.UserType;
 
 /**
  * @see https://community.jboss.org/wiki/Java5EnumUserType
- * @see http://stackoverflow.com/questions/4744179/java-lang-verifyerror-on-hibernate-specific-usertype
+ * @see
+ * http://stackoverflow.com/questions/4744179/java-lang-verifyerror-on-hibernate-specific-usertype
  */
 public class EnumValueUserType implements UserType, ParameterizedType {
 
@@ -54,7 +55,7 @@ public class EnumValueUserType implements UserType, ParameterizedType {
     private Class<?> identifierType;
     private Method identifierMethod;
     private Method valueOfMethod;
-    private static final String defaultIdentifierMethodName = "name";
+    private static final String defaultIdentifierMethodName = "getValor";
     private static final String defaultValueOfMethodName = "valueOf";
     private AbstractSingleColumnStandardBasicType type;
     private int[] sqlTypes;
@@ -106,26 +107,25 @@ public class EnumValueUserType implements UserType, ParameterizedType {
     @Override
     public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
             throws HibernateException, SQLException {
-        Object identifier = type.get(rs, names[0], session);
-        try {
-            return valueOfMethod.invoke(enumClass, new Object[]{identifier});
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException exception) {
-            throw new HibernateException("Exception while invoking valueOfMethod of enumeration class: ",
-                    exception);
+        final Object identifier = rs.getObject(names[0]);
+        if (rs.wasNull()) {
+            return null;
         }
+        for (Enum enum1 : enumClass.getEnumConstants()) {
+            EnumValue ev = (EnumValue) enum1;
+
+            if (ev.getValor().equals(identifier)) {
+                return enum1;
+            }
+        }
+        throw new IllegalStateException("Valor desconhecido " + identifier);
     }
 
     @Override
     public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
             throws HibernateException, SQLException {
-        try {
-            Object identifier = value != null ? identifierMethod.invoke(value, new Object[0]) : null;
-            st.setObject(index, identifier);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SQLException exception) {
-            throw new HibernateException("Exception while invoking identifierMethod of enumeration class: ",
-                    exception);
-
-        }
+        Object identifier = value != null ? ((EnumValue) value).getValor() : null;
+        st.setObject(index, identifier);
     }
 
     @Override

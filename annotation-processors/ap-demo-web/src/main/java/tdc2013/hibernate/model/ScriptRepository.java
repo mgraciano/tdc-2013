@@ -44,14 +44,24 @@ import javax.persistence.EntityManager;
  */
 @Stateless
 public class ScriptRepository {
+
+    @Inject
+    EntityManager em;
     
-    @Inject EntityManager em;
-    
-    public void save(Script script){
+    public void save(Script script) {
         em.merge(script);
     }
+
+    public void remove(Script script) {
+        em.remove(script);
+    }
     
-    public Script findById(Long id){
+    public Script findById(Long id) {
         return em.find(Script.class, id);
     }
+
+    public Script findByType(String type) {
+        return em.createQuery("select s from Script s where s.type = ?", Script.class).setParameter(1, type).getSingleResult();
+    }
+    
 }

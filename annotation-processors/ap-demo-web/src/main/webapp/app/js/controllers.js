@@ -31,38 +31,64 @@
 'use strict';
 
 /* Controllers */
-  
-function codeCtrl($scope, $http) {
-    
-    $http({
-        method: 'GET', 
-        url: '/annotation-processors-demo-web/ScriptServlet?script=groovy'
-    }).
-    success(function(data) {
+
+function repositoryExampleCtrl($scope, $http) {
+
+    get($http, 'js', function(data) {
+        $scope.code = data;
+    });
+
+    $scope.save = function(data) {
+        save($http, data, 'js', function() {
+            run($http, 'js', function(data) {
+                $scope.result = data;
+            });
+        });
+    };
+}
+
+function codeEditorExampleCtrl($scope, $http) {
+    get($http, 'groovy', function(data) {
         $scope.codeGroovy = data;
     });
-    
-    $http({
-        method: 'GET', 
-        url: '/annotation-processors-demo-web/ScriptServlet?script=javaScript'
-    }).
-    success(function(data) {
+
+    get($http, 'javaScript', function(data) {
         $scope.codeJavaScript = data;
     });
-    
-    $http({
-        method: 'GET', 
-        url: '/annotation-processors-demo-web/ScriptServlet?script=python'
-    }).
-    success(function(data) {
+
+    get($http, 'python', function(data) {
         $scope.codePython = data;
     });
+
+    $scope.save = function(data, script) {
+        save($http, data, script);
+    };
     
-    $scope.save = function(data, script){
-        $http({
-            method: 'POST', 
-            url: '/annotation-processors-demo-web/ScriptServlet?script=' + script,
-            data: data
+    $scope.run = function(type) {
+        run($http, type, function (data){
+            $scope[type + 'Result'] = data;
         });
-    }
+    };
+}
+
+function run(http, scriptType, successCallback) {
+    http({
+        method: 'PUT',
+        url: '/annotation-processors-demo-web/ScriptServlet?script=' + scriptType
+    }).success(successCallback);
+}
+
+function get(http, scriptType, successCallback) {
+    http({
+        method: 'GET',
+        url: '/annotation-processors-demo-web/ScriptServlet?script=' + scriptType
+    }).success(successCallback);
+}
+
+function save(http, data, script, successCallback) {
+    http({
+        method: 'POST',
+        url: '/annotation-processors-demo-web/ScriptServlet?script=' + script,
+        data: data
+    }).success(successCallback);
 }

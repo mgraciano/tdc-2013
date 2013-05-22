@@ -28,11 +28,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package tdc2013.web.interfaces;
+package tdc2013.web.script;
 
 import tdc2013.script.Script;
 
-@Script(value = "/resources/js/Calculos.js", engine = "nashorn")
+@Script(value = "/resources/js/Calculos.js", engine = "rhino")
 public interface Calculos {
 
     public int soma(int n1, int n2);

@@ -36,13 +36,8 @@ package tdc2013.web;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.spi.CreationalContext;
-import javax.enterprise.inject.spi.Bean;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.persistence.EntityManager;
-import tdc2013.hibernate.model.Script;
 import tdc2013.hibernate.model.ScriptRepository;
 import tdc2013.script.ScriptProvider;
 
@@ -66,7 +61,7 @@ public class ScriptProviderImpl implements ScriptProvider {
     public ScriptRepository getRepository() {
         try {
             InitialContext initialContext = new InitialContext();
-            return (ScriptRepository) initialContext.lookup("java:global/tdc-2013_annotation-processors-demo-web_war_1.0-SNAPSHOT/ScriptRepository!tdc2013.hibernate.model.ScriptRepository");
+            return (ScriptRepository) initialContext.lookup("java:global/Annotation_Processors_Demo_-_Web/ScriptRepository");
         } catch (NamingException e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Couldn't get BeanManager through JNDI", e);
         }
@@ -91,6 +86,13 @@ public class ScriptProviderImpl implements ScriptProvider {
 
         public Python() {
             super(3L);
+        }
+    }
+    
+      public static final class JavaScriptRepository extends ScriptProviderImpl {
+
+        public JavaScriptRepository() {
+            super(4L);
         }
     }
 }

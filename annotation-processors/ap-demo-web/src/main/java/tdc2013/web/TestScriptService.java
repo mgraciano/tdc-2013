@@ -30,27 +30,19 @@
  */
 package tdc2013.web;
 
-import java.math.BigDecimal;
 import javax.ejb.Stateless;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Scope;
-import javax.persistence.EntityManager;
-import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
-import tdc2013.hibernate.model.Pessoa;
 import tdc2013.hibernate.model.PessoaRepository;
-import tdc2013.hibernate.model.Sexo;
-import tdc2013.web.interfaces.Calculos;
-import tdc2013.web.interfaces.CustomScriptGroovy;
-import tdc2013.web.interfaces.CustomScriptJavaScript;
-import tdc2013.web.interfaces.CustomScriptPython;
+import tdc2013.web.script.Calculos;
+import tdc2013.web.script.CustomScriptGroovy;
+import tdc2013.web.script.CustomScriptJavaScript;
+import tdc2013.web.script.CustomScriptPython;
 
 @Named
-@RequestScoped
-public class PessoaService {
+public class TestScriptService {
 
     @Inject
     PessoaRepository pessoaRepository;
@@ -62,28 +54,6 @@ public class PessoaService {
     CustomScriptJavaScript scriptJavaScript;
     @Inject
     CustomScriptPython scriptPython;
-    
-    private String language;
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-    
-    public Pessoa getResultFind1() {
-        Pessoa pessoa = new Pessoa();
-        pessoa.setId(1l);
-        pessoa.setNome("Mr. Jonnes");
-        pessoa.setSexo(Sexo.MASCULINO);
-
-        // em.merge(pessoa);
-
-        //return pessoaRepository.findBySexoEqual(Sexo.MASCULINO);
-        return pessoa;
-    }
 
     public String opJS(int n1, int n2) {
         return op(scriptJavaScript.soma(n1, n2), scriptJavaScript.diminui(n1, n2), scriptJavaScript.divide(n1, n2), scriptJavaScript.multiplica(n1, n2), "javascript");
@@ -98,7 +68,7 @@ public class PessoaService {
     }
     
     public String opJSClientServer(int n1, int n2) {
-        return op(calculos.soma(n1, n2), calculos.diminui(n1, n2), calculos.divide(n1, n2), calculos.multiplica(n1, n2), "nashorn");
+        return op(calculos.soma(n1, n2), calculos.diminui(n1, n2), calculos.divide(n1, n2), calculos.multiplica(n1, n2), "rhino");
     }
     
     private String op(Number n1, Number n2, Number n3, Number n4, String engine){

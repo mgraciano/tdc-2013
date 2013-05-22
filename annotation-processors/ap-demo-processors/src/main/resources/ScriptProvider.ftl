@@ -32,7 +32,6 @@
 -->
 package ${packageName};
 
-import java.io.InputStreamReader;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 import javax.script.Invocable;
@@ -42,11 +41,12 @@ import javax.script.ScriptException;
 import java.io.InputStream;
 import java.util.Scanner;
 import tdc2013.script.ScriptProvider;
+import javax.enterprise.context.RequestScoped;
 
 @javax.annotation.Generated(value = "tdc2013.repository.processors", date = "${date}")
 public class ${interfaceName}ScriptsProvider {
 
-    @Produces
+    @Produces @RequestScoped
     public ${interfacePath} getScript() throws ScriptException{
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("${engine}");
    

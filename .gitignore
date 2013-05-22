@@ -8,3 +8,4 @@
 /annotation-processors/ap-demo-annotations/target/
 /annotation-processors/ap-demo-web/target/
 /annotation-processors/target/
+!/annotation-processors/ap-demo-web/lib/com/oracle/nashorn/nashorn/1000/nashorn-1000.jar

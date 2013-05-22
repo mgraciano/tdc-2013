@@ -32,23 +32,28 @@
 -->
 package ${packageName};
 
+import javax.inject.Named;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.inject.Inject;
 
+@Named
+@Stateless
 @javax.annotation.Generated(value = "tdc2013.repository.processors", date = "${date}")
 public class ${interfaceName}Impl implements ${interfacePath}{
 
-    private EntityManager em;
-
-
     @Inject
-    public ${interfaceName}Impl(EntityManager em){
-        this.em = em;
-    }
+    private EntityManager em;
 
 <#list methods as m>
 
+<#if m.name == 'save'>
+    @Override
+    public void ${m.name}(${entityName} entity){
+        em.merge(entity);
+    }
+<#else>
     @Override
     public ${m.returnType} ${m.name}(${m.parametersString}){
 
@@ -64,7 +69,7 @@ public class ${interfaceName}Impl implements ${interfacePath}{
         return query.getSingleResult();
         </#if>
     }
-
+</#if>
 </#list>
 
 }
