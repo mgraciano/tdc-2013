@@ -28,19 +28,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.web;
 
 import java.util.Scanner;
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
 import tdc2013.hibernate.model.EstadoCivil;
 import tdc2013.hibernate.model.Pessoa;
 import tdc2013.hibernate.model.PessoaRepository;
@@ -48,14 +43,9 @@ import tdc2013.hibernate.model.Script;
 import tdc2013.hibernate.model.ScriptRepository;
 import tdc2013.hibernate.model.Sexo;
 
-/**
- * Web application lifecycle listener.
- *
- * @author Klaus Boeing
- */
-@Named
-@WebListener()
-public class Bootstrap implements ServletContextListener {
+@Singleton
+@Startup
+public class Bootstrap {
 
     @Inject
     EntityManager em;
@@ -64,13 +54,13 @@ public class Bootstrap implements ServletContextListener {
     @Inject
     PessoaRepository pessoaRepository;
 
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-
+    @PostConstruct
+    public void init() {
         String codeGV = new Scanner(getClass().getResourceAsStream("/script.groovy")).useDelimiter("\\Z").next();
         String codeJS = new Scanner(getClass().getResourceAsStream("/script.js")).useDelimiter("\\Z").next();
         String codePY = new Scanner(getClass().getResourceAsStream("/script.py")).useDelimiter("\\Z").next();
-        String codeJSRepository = new Scanner(getClass().getResourceAsStream("/scriptRepository.js")).useDelimiter("\\Z").next();
+        String codeJSRepository = new Scanner(getClass().getResourceAsStream("/scriptRepository.js")).
+                useDelimiter("\\Z").next();
 
         Script scriptGV = em.find(Script.class, 1L);
         Script scriptJS = em.find(Script.class, 2L);
@@ -139,9 +129,5 @@ public class Bootstrap implements ServletContextListener {
         pessoaRepository.save(pessoa3);
         pessoaRepository.save(pessoa4);
 
-    }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
     }
 }
