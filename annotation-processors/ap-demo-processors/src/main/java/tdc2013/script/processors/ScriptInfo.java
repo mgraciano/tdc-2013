@@ -34,10 +34,6 @@ package tdc2013.script.processors;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- *
- * @author klaus.boeing
- */
 public class ScriptInfo {
 
     private String packageName;
@@ -45,15 +41,25 @@ public class ScriptInfo {
     private String interfacePath;
     private String script;
     private String engine;
+    private String url;
 
-    public ScriptInfo(String packageName, String interfaceName, String interfacePath, String script, String engine) {
+    public ScriptInfo(String packageName, String interfaceName, String interfacePath, String script, String engine, String url) {
         this.packageName = packageName;
         this.interfaceName = interfaceName;
         this.interfacePath = interfacePath;
         this.script = script;
         this.engine = engine;
+        this.url = url;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public String getServletName(){
+        return script.substring(0, 1).toUpperCase().concat(script.substring(1));
+    }
+    
     public String getDate() {
         return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     }

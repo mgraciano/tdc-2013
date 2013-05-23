@@ -40,4 +40,5 @@ import java.lang.annotation.Target;
 public @interface Script {
     String value();
     String engine() default "javascript";
+    String url() default "";
 }

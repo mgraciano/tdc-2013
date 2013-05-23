@@ -81,13 +81,25 @@ public class ScriptProcessor extends AbstractProcessor {
 
                 String script = classElement.getAnnotation(Script.class).value();
                 String engine = classElement.getAnnotation(Script.class).engine();
-                
-                ScriptInfo info = new ScriptInfo(packageElement.getQualifiedName().toString(), classElement.getSimpleName().toString(), classElement.getQualifiedName().toString(), script, engine);
+                String url = classElement.getAnnotation(Script.class).url();
+
+                ScriptInfo info = new ScriptInfo(packageElement.getQualifiedName().toString(), classElement.getSimpleName().toString(), classElement.getQualifiedName().toString(), script, engine, url);
 
                 try (BufferedWriter bw = new BufferedWriter(jfo.openWriter())) {
                     FreemarkerUtils.parseTemplate(bw, info, "ScriptProvider.ftl");
                 } catch (TemplateException ex) {
                     Logger.getLogger(tdc2013.repository.processors.RepositoryProcessor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                if (!url.isEmpty()) {
+                    JavaFileObject jfow = processingEnv.getFiler().createSourceFile(
+                        info.getPackageName().concat(".").concat(info.getServletName()).concat("Servlet"));
+
+                    try (BufferedWriter bw = new BufferedWriter(jfow.openWriter())) {
+                        FreemarkerUtils.parseTemplate(bw, info, "ScriptServlet.ftl");
+                    } catch (TemplateException ex) {
+                        Logger.getLogger(tdc2013.repository.processors.RepositoryProcessor.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             } catch (IOException ex) {
                 Logger.getLogger(tdc2013.repository.processors.RepositoryProcessor.class.getName()).log(Level.SEVERE, null, ex);

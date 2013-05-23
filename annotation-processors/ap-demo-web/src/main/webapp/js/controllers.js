@@ -34,19 +34,17 @@
 
 function repositoryExampleCtrl($scope, $http) {
 
-    get($http, 'javascript', 'pessoaRepositoryExecutor', function(data) {
+    get($http, 'javascript', 'folhaPagamento', function(data) {
         $scope.code = data;
     });
 
     $scope.runClient = function(data) {
-        $scope.$eval(data);
-        $scope.resultClient = $scope.$eval($scope.param);
-        
+        $scope.resultClient = eval($scope.param);
     };
 
     $scope.save = function(data) {
-        save($http, data, 'javascript', 'pessoaRepositoryExecutor', function() {
-            run($http, 'javascript', 'pessoaRepositoryExecutor', function(data) {
+        save($http, data, 'javascript', 'folhaPagamento', function() {
+            run($http, 'javascript', 'folhaPagamento', function(data) {
                 $scope.result = data;
             });
         });

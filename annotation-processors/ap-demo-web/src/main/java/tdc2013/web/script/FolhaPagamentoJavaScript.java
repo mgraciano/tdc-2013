@@ -32,7 +32,7 @@ package tdc2013.web.script;
 
 import tdc2013.script.Script;
 
-@Script(value = "folhaPagamento")
+@Script(value = "folhaPagamento", url = "/folhaPagamento.js")
 public interface FolhaPagamentoJavaScript {
  
     public Number calculaSalarioMensal(Number salarioMensal, int diasTrabalhados);

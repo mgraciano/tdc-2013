@@ -1,4 +1,5 @@
-====
+<!--
+
     Copyright (c) 2013, Klaus Boeing & Michel Graciano.
     All rights reserved.
 
@@ -27,6 +28,20 @@
     CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
-====
 
+-->
 
+<div class="row-fluid">
+    <div class="span6">
+        <span class="label label-info">Server</span>
+        <textarea ui-codemirror="{mode: 'text/javascript', lineNumbers: true, matchBrackets: true}" ng-model="code"></textarea>
+        <button class="btn btn-primary" ng-click="save(code)">Executar</button>
+        <div class="hero-unit" ng-bind-html-unsafe="result"></div>
+    </div>
+    <div class="span6">
+        <span class="label label-warning">Client</span><input ng-model="param"/>
+        <textarea ui-codemirror="{mode: 'text/javascript', lineNumbers: true, matchBrackets: true}" ng-model="code"></textarea>
+        <button class="btn btn-primary" ng-click="runClient(code)">Executar</button>
+        <div class="hero-unit" ng-bind-html-unsafe ="resultClient"></div>
+    </div>
+</div>

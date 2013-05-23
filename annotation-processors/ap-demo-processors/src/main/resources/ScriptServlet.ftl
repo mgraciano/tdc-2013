@@ -1,4 +1,4 @@
-<!--
+<#--
 
     Copyright (c) 2013, Klaus Boeing & Michel Graciano.
     All rights reserved.
@@ -30,18 +30,36 @@
     POSSIBILITY OF SUCH DAMAGE.
 
 -->
+package ${packageName};
 
-<div class="row-fluid">
-    <div class="span6">
-        <span class="label label-info">Server</span>
-        <textarea ui-codemirror="{mode: 'text/javascript', lineNumbers: true, matchBrackets: true}" ng-model="code"></textarea>
-        <button class="btn btn-primary" ng-click="save(code)">Executar</button>
-        <textarea readonly="true" ng-model="result" class="input-xxlarge"></textarea>
-    </div>
-    <div class="span6">
-        <span class="label label-warning">Client</span><input ng-model="param"/>
-        <textarea ui-codemirror="{mode: 'text/javascript', lineNumbers: true, matchBrackets: true}" ng-model="code"></textarea>
-        <button class="btn btn-primary" ng-click="runClient(code)">Executar</button>
-        <textarea readonly="true" ng-model="resultClient" class="input-xxlarge"></textarea>
-    </div>
-</div>
+import java.io.IOException;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import tdc2013.hibernate.model.Script;
+import tdc2013.hibernate.model.ScriptRepository;
+
+@Named
+@WebServlet(name = "${servletName}", urlPatterns = {"${url}"})
+public class ${servletName}Servlet extends HttpServlet {
+
+    @Inject
+    ScriptRepository repository;
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String engine = "${engine}";
+        String name = "${script}";
+        Script script = repository.findByNameEqualAndTypeEqual(name, engine);
+
+        response.setContentType("text/plain");
+        response.getWriter().print(script.getCode());
+        response.flushBuffer();
+    }
+    
+}

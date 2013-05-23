@@ -36,7 +36,7 @@ import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import tdc2013.web.script.FolhaPagamentoGroovy;
 import tdc2013.web.script.FolhaPagamentoJavaScript;
-import tdc2013.web.script.FolhaPagamentoJavaScriptPython;
+import tdc2013.web.script.FolhaPagamentoPython;
 
 @Named
 public class FolhaPagamentoService {
@@ -45,44 +45,46 @@ public class FolhaPagamentoService {
     
     @Inject FolhaPagamentoJavaScript pagamentoJavaScript;
     
-    @Inject FolhaPagamentoJavaScriptPython pagamentoPython;
+    @Inject FolhaPagamentoPython pagamentoPython;
     
     public String getResumoCalculoFolhaGroovy(Number salarioMensal, int diasTrabalhados, double horasExtras){
         StringBuilder builder = new StringBuilder();
-        builder.append("Salario: ").append(pagamentoGroovy.calculaSalarioMensal(salarioMensal, diasTrabalhados)).append("\n");
-        builder.append("HorasExtras: ").append(pagamentoGroovy.calculaHoraExtra(salarioMensal, horasExtras)).append("\n");
-        builder.append("13 Salário: ").append(pagamentoGroovy.calcula13(salarioMensal)).append("\n\n");
+        
+        builder.append("Salario: ").append(pagamentoGroovy.calculaSalarioMensal(salarioMensal, diasTrabalhados)).append("<br/>");
+        builder.append("HorasExtras: ").append(pagamentoGroovy.calculaHoraExtra(salarioMensal, horasExtras)).append("<br/>");
+        builder.append("13 Salário: ").append(pagamentoGroovy.calcula13(salarioMensal)).append("<br/><br/>");
        
         return builder.append(getEngineInfo(ScriptEngine.GROOVY)).toString();
     }
 
     public String getResumoCalculoFolhaJavaScript(Number salarioMensal, int diasTrabalhados, double horasExtras){
         StringBuilder builder = new StringBuilder();
-        builder.append("Salario: ").append(pagamentoJavaScript.calculaSalarioMensal(salarioMensal, diasTrabalhados)).append("\n");
-        builder.append("HorasExtras: ").append(pagamentoJavaScript.calculaHoraExtra(salarioMensal, horasExtras)).append("\n");
-        builder.append("13 Salário: ").append(pagamentoJavaScript.calcula13(salarioMensal)).append("\n\n");
+        builder.append("Salario: ").append(pagamentoJavaScript.calculaSalarioMensal(salarioMensal, diasTrabalhados)).append("<br/>");
+        builder.append("HorasExtras: ").append(pagamentoJavaScript.calculaHoraExtra(salarioMensal, horasExtras)).append("<br/>");
+        builder.append("13 Salário: ").append(pagamentoJavaScript.calcula13(salarioMensal)).append("<br/><br/>");
        
         return builder.append(getEngineInfo(ScriptEngine.JAVA_SCRIPT)).toString();
     }
     
     public String getResumoCalculoFolhaPython(Number salarioMensal, int diasTrabalhados, double horasExtras){
         StringBuilder builder = new StringBuilder();
-        builder.append("Salario: ").append(pagamentoPython.calculaSalarioMensal(salarioMensal, diasTrabalhados)).append("\n");
-        builder.append("HorasExtras: ").append(pagamentoPython.calculaHoraExtra(salarioMensal, horasExtras)).append("\n");
-        builder.append("13 Salário: ").append(pagamentoPython.calcula13(salarioMensal)).append("\n\n");
+        builder.append("Salario: ").append(pagamentoPython.calculaSalarioMensal(salarioMensal, diasTrabalhados)).append("<br/>");
+        builder.append("HorasExtras: ").append(pagamentoPython.calculaHoraExtra(salarioMensal, horasExtras)).append("<br/>");
+        builder.append("13 Salário: ").append(pagamentoPython.calcula13(salarioMensal)).append("<br/><br/>");
        
         return builder.append(getEngineInfo(ScriptEngine.PYTHON)).toString();
     }
     
     public String getResumoCalculoFolha(String engine, Number salarioMensal, int diasTrabalhados, double horasExtras){
+        String result="";
         if(ScriptEngine.GROOVY.isValueEquals(engine)){
-            return getResumoCalculoFolhaGroovy(salarioMensal, diasTrabalhados, horasExtras);
+            result = getResumoCalculoFolhaGroovy(salarioMensal, diasTrabalhados, horasExtras);
         }else if(ScriptEngine.JAVA_SCRIPT.isValueEquals(engine)){
-            return getResumoCalculoFolhaJavaScript(salarioMensal, diasTrabalhados, horasExtras);
+            result = getResumoCalculoFolhaJavaScript(salarioMensal, diasTrabalhados, horasExtras);
         }else if(ScriptEngine.PYTHON.isValueEquals(engine)){
-            return getResumoCalculoFolhaPython(salarioMensal, diasTrabalhados, horasExtras);
+            result = getResumoCalculoFolhaPython(salarioMensal, diasTrabalhados, horasExtras);
         }
-        return "";
+        return "<label>".concat(result).concat("</label>");
     }
     
     private String getEngineInfo(ScriptEngine engine){
@@ -90,12 +92,12 @@ public class FolhaPagamentoService {
         StringBuilder builder = new StringBuilder();
         
         builder.append("engine name=").append(factory.getEngineName());
-        builder.append("\nengine version=").append(factory.getEngineVersion());
-        builder.append("\nlanguage name=").append(factory.getLanguageName());
-        builder.append("\nextensions=").append(factory.getExtensions());
-        builder.append("\nlanguage version=").append(factory.getLanguageVersion());
-        builder.append("\nnames=").append(factory.getNames());
-        builder.append("\nmime types=").append(factory.getMimeTypes());
+        builder.append("<br/>engine version=").append(factory.getEngineVersion());
+        builder.append("<br/>language name=").append(factory.getLanguageName());
+        builder.append("<br/>extensions=").append(factory.getExtensions());
+        builder.append("<br/>language version=").append(factory.getLanguageVersion());
+        builder.append("<br/>names=").append(factory.getNames());
+        builder.append("<br/>mime types=").append(factory.getMimeTypes());
         
         return builder.toString();
     }

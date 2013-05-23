@@ -42,7 +42,6 @@ import javax.servlet.http.HttpServletResponse;
 import tdc2013.hibernate.model.PessoaRepository;
 import tdc2013.hibernate.model.Script;
 import tdc2013.hibernate.model.ScriptRepository;
-import tdc2013.web.script.PessoaRespositoryExecutor;
 
 @Named
 @WebServlet(name = "ScriptServlet", urlPatterns = {"/ScriptServlet"})
@@ -54,8 +53,6 @@ public class ScriptServlet extends HttpServlet {
     PessoaRepository pessoaRepository;
     @Inject
     FolhaPagamentoService folhaPagamentoService;
-    @Inject
-    PessoaRespositoryExecutor pessoaRespositoryExecutor;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -78,9 +75,6 @@ public class ScriptServlet extends HttpServlet {
         switch (name) {
             case "folhaPagamento":
                 result = folhaPagamentoService.getResumoCalculoFolha(engine, 1780.23, 28, 2.4);
-                break;
-            case "pessoaRepositoryExecutor":
-                result = pessoaRespositoryExecutor.execute(pessoaRepository);
                 break;
         }
 

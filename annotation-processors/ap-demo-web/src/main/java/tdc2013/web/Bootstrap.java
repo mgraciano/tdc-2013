@@ -28,10 +28,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.web;
 
 import java.util.Scanner;
@@ -48,7 +44,6 @@ import tdc2013.hibernate.model.Sexo;
 @Singleton
 @Startup
 public class Bootstrap {
-
    
     public static final String FOLHA_PAGAMENTO = "folhaPagamento";
     public static final String PESSOA_REPOSITORY_EXECUTOR = "pessoaRepositoryExecutor";

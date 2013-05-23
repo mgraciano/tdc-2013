@@ -85,12 +85,12 @@
 
 <div class="row-fluid">
     <div class="span4">
-        <textarea readonly="true" ng-model="groovyResult" rows="15" class="input-xxlarge" ></textarea>
+        <div class="hero-unit" ng-bind-html-unsafe="groovyResult"></div>
     </div>
     <div class="span4">
-        <textarea readonly="true" ng-model="javascriptResult" rows="15" class="input-xxlarge"></textarea>
+        <div class="hero-unit" ng-bind-html-unsafe="javascriptResult"></div>
     </div>
     <div class="span4">
-        <textarea readonly="true" ng-model="pythonResult" rows="15" class="input-xxlarge"></textarea>
+        <div class="hero-unit" ng-bind-html-unsafe="pythonResult"></div>
     </div>
 </div>

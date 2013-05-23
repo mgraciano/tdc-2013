@@ -33,13 +33,10 @@
 package ${packageName};
 
 import javax.enterprise.inject.Produces;
-import javax.faces.context.FacesContext;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import java.io.InputStream;
-import java.util.Scanner;
 import tdc2013.script.ScriptProvider;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -53,24 +50,9 @@ public class ${interfaceName}ScriptsProvider {
     public ${interfacePath} getScript() throws ScriptException{
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("${engine}");
    
-        engine.eval(getScript("${script}", "${engine}"));
+        engine.eval(provider.getScript("${script}", "${engine}"));
         
         return Invocable.class.cast(engine).getInterface(${interfacePath}.class);
-    }
-
-    private String getScript(String name, String script){
-        String value = provider.getScript(name, script);
-
-        if(value == null){
-            InputStream is = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(name);
-            if(is == null){
-                is = getClass().getResourceAsStream(name);
-            }
-
-            value = new Scanner(is).useDelimiter("\\Z").next();
-        }
-
-        return value;
     }
 
 }

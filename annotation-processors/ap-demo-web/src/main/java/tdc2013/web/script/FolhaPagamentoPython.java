@@ -28,20 +28,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package tdc2013.web.script;
 
+import tdc2013.script.Script;
 
-function soma(n1, n2){
-    return n1 + n2;
-}
+@Script(value = "folhaPagamento", engine = "python")
+public interface FolhaPagamentoPython {
+ 
+    public Number calculaSalarioMensal(Number salarioMensal, int diasTrabalhados);
 
-function diminui(n1, n2){
-    return n1 - n2;
-}
-
-function multiplica(n1, n2){
-    return n1 * n2;
-}
-
-function divide(n1, n2){
-    return n1 / n2;
+    public Number calcula13(Number salarioMensal);
+    
+    public Number calculaHoraExtra(Number salarioMensal, double horasExtras);
+    
 }

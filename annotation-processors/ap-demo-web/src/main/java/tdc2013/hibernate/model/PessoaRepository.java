@@ -33,10 +33,6 @@ package tdc2013.hibernate.model;
 import java.util.Collection;
 import tdc2013.repository.Repository;
 
-/**
- *
- * @author klaus.boeing
- */
 @Repository
 public interface PessoaRepository {
 

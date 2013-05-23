@@ -30,48 +30,15 @@
  */
 package tdc2013.hibernate.model;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import tdc2013.repository.Repository;
 
-@Stateless
-public class ScriptRepository {
+@Repository
+public interface ScriptRepository {
 
-    @Inject
-    private EntityManager em;
+    public void save(Script entity);
 
+    public tdc2013.hibernate.model.Script findByIdEqual( java.lang.Long id);
 
-   
-    public void save(Script entity){
-        em.merge(entity);
-    }
-
-    public tdc2013.hibernate.model.Script findByIdEqual( java.lang.Long id){
-
-        TypedQuery<Script> query = em.createQuery("SELECT entity FROM Script entity WHERE entity.id  = ? ", Script.class);
-                
-        query.setParameter(1, id);
-
-        java.util.List<Script> result = query.getResultList();
-        if(result != null && !result.isEmpty()){
-            return result.iterator().next();
-        }
-        return null;
-    }
-
-    public tdc2013.hibernate.model.Script findByNameEqualAndTypeEqual( java.lang.String name, java.lang.String type){
-
-        TypedQuery<Script> query = em.createQuery("SELECT entity FROM Script entity WHERE entity.name  = ?  And entity.type  = ? ", Script.class);
-                
-        query.setParameter(1, name);
-        query.setParameter(2, type);
-
-        java.util.List<Script> result = query.getResultList();
-        if(result != null && !result.isEmpty()){
-            return result.iterator().next();
-        }
-        return null;
-    }
+    public tdc2013.hibernate.model.Script findByNameEqualAndTypeEqual( java.lang.String name, java.lang.String type);
 
 }

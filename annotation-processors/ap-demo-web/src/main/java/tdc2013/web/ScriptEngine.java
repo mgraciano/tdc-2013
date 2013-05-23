@@ -28,16 +28,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.web;
 
-/**
- *
- * @author Klaus Boeing
- */
 public enum ScriptEngine {
     GROOVY("groovy"),JAVA_SCRIPT("javascript"),PYTHON("python");
     private String engine;
