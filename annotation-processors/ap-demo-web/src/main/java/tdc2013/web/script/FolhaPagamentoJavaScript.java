@@ -28,53 +28,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package tdc2013.web.script;
 
-package tdc2013.script.processors;
+import tdc2013.script.Script;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+@Script(value = "folhaPagamento")
+public interface FolhaPagamentoJavaScript {
+ 
+    public Number calculaSalarioMensal(Number salarioMensal, int diasTrabalhados);
 
-/**
- *
- * @author klaus.boeing
- */
-public class ScriptInfo {
-
-    private String packageName;
-    private String interfaceName;
-    private String interfacePath;
-    private String script;
-    private String engine;
-
-    public ScriptInfo(String packageName, String interfaceName, String interfacePath, String script, String engine) {
-        this.packageName = packageName;
-        this.interfaceName = interfaceName;
-        this.interfacePath = interfacePath;
-        this.script = script;
-        this.engine = engine;
-    }
-
-    public String getDate() {
-        return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-    }
-
-    public String getInterfaceName() {
-        return interfaceName;
-    }
-
-    public String getInterfacePath() {
-        return interfacePath;
-    }
-
-    public String getPackageName() {
-        return packageName;
-    }
-
-    public String getEngine() {
-        return engine;
-    }
-
-    public String getScript() {
-        return script;
-    }
+    public Number calcula13(Number salarioMensal);
+    
+    public Number calculaHoraExtra(Number salarioMensal, double horasExtras);
+    
 }

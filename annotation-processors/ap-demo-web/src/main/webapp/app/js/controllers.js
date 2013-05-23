@@ -34,13 +34,19 @@
 
 function repositoryExampleCtrl($scope, $http) {
 
-    get($http, 'js', function(data) {
+    get($http, 'javascript', 'pessoaRepositoryExecutor', function(data) {
         $scope.code = data;
     });
 
+    $scope.runClient = function(data) {
+        $scope.$eval(data);
+        $scope.resultClient = $scope.$eval($scope.param);
+        
+    };
+
     $scope.save = function(data) {
-        save($http, data, 'js', function() {
-            run($http, 'js', function(data) {
+        save($http, data, 'javascript', 'pessoaRepositoryExecutor', function() {
+            run($http, 'javascript', 'pessoaRepositoryExecutor', function(data) {
                 $scope.result = data;
             });
         });
@@ -48,47 +54,47 @@ function repositoryExampleCtrl($scope, $http) {
 }
 
 function codeEditorExampleCtrl($scope, $http) {
-    get($http, 'groovy', function(data) {
+    get($http, 'groovy', 'folhaPagamento', function(data) {
         $scope.codeGroovy = data;
     });
 
-    get($http, 'javaScript', function(data) {
+    get($http, 'javascript', 'folhaPagamento', function(data) {
         $scope.codeJavaScript = data;
     });
 
-    get($http, 'python', function(data) {
+    get($http, 'python', 'folhaPagamento', function(data) {
         $scope.codePython = data;
     });
 
-    $scope.save = function(data, script) {
-        save($http, data, script);
+    $scope.save = function(data, engine) {
+        save($http, data, engine, 'folhaPagamento');
     };
     
-    $scope.run = function(type) {
-        run($http, type, function (data){
-            $scope[type + 'Result'] = data;
+    $scope.run = function(engine) {
+        run($http, engine, 'folhaPagamento', function (data){
+            $scope[engine + 'Result'] = data;
         });
     };
 }
 
-function run(http, scriptType, successCallback) {
+function run(http, engine, name, successCallback) {
     http({
         method: 'PUT',
-        url: '/annotation-processors-demo-web/ScriptServlet?script=' + scriptType
+        url: '/annotation-processors-demo-web/ScriptServlet?engine=' + engine +'&name=' + name
     }).success(successCallback);
 }
 
-function get(http, scriptType, successCallback) {
+function get(http, engine, name, successCallback) {
     http({
         method: 'GET',
-        url: '/annotation-processors-demo-web/ScriptServlet?script=' + scriptType
+        url: '/annotation-processors-demo-web/ScriptServlet?engine=' + engine +'&name=' + name
     }).success(successCallback);
 }
 
-function save(http, data, script, successCallback) {
+function save(http, data, engine, name, successCallback) {
     http({
         method: 'POST',
-        url: '/annotation-processors-demo-web/ScriptServlet?script=' + script,
+        url: '/annotation-processors-demo-web/ScriptServlet?engine=' + engine +'&name=' + name,
         data: data
     }).success(successCallback);
 }

@@ -28,26 +28,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.web.script;
 
 import tdc2013.script.Script;
 
-/**
- *
- * @author Klaus Boeing
- */
-@Script(value = "tdc2013.web.ScriptProviderImpl$Python", engine = "python")
-public interface CustomScriptPython {
+@Script(value = "folhaPagamento", engine = "groovy")
+public interface FolhaPagamentoGroovy {
+ 
+    public Number calculaSalarioMensal(Number salarioMensal, int diasTrabalhados);
 
-    public int soma(int n1, int n2);
-
-    public int diminui(int n1, int n2);
-
-    public int multiplica(int n1, int n2);
-
-    public Number divide(int n1, int n2);
+    public Number calcula13(Number salarioMensal);
+    
+    public Number calculaHoraExtra(Number salarioMensal, double horasExtras);
+    
 }

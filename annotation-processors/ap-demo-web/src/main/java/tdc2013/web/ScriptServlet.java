@@ -28,20 +28,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.web;
 
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.script.ScriptException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -50,13 +42,8 @@ import javax.servlet.http.HttpServletResponse;
 import tdc2013.hibernate.model.PessoaRepository;
 import tdc2013.hibernate.model.Script;
 import tdc2013.hibernate.model.ScriptRepository;
-import tdc2013.web.script.PessoaRespositoryTester;
-import tdc2013.web.script.PessoaRespositoryTesterScriptsProvider;
+import tdc2013.web.script.PessoaRespositoryExecutor;
 
-/**
- *
- * @author Klaus Boeing
- */
 @Named
 @WebServlet(name = "ScriptServlet", urlPatterns = {"/ScriptServlet"})
 public class ScriptServlet extends HttpServlet {
@@ -66,13 +53,16 @@ public class ScriptServlet extends HttpServlet {
     @Inject
     PessoaRepository pessoaRepository;
     @Inject
-    TestScriptService scriptService;
+    FolhaPagamentoService folhaPagamentoService;
+    @Inject
+    PessoaRespositoryExecutor pessoaRespositoryExecutor;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String scriptType = request.getParameter("script");
-        Script script = repository.findByType(scriptType);
+        String engine = request.getParameter("engine");
+        String name = request.getParameter("name");
+        Script script = repository.findByNameEqualAndTypeEqual(name, engine);
 
         response.setContentType("text/plain");
         response.getWriter().print(script.getCode());
@@ -81,36 +71,32 @@ public class ScriptServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            String type = request.getParameter("script");
-            String result = "";
-
-            if (type.equals("groovy")) {
-                result = scriptService.opGV(10, 5);
-            } else if (type.equals("javaScript")) {
-                result = scriptService.opJS(10, 5);
-            } else if (type.equals("python")) {
-                result = scriptService.opPY(10, 5);
-            } else if (type.equals("js")) {
-                PessoaRespositoryTester pessoasRepositoryTester = new PessoaRespositoryTesterScriptsProvider().getScript();
-                result = pessoasRepositoryTester.testPessoaRepository(pessoaRepository);
-            }
-
-            response.setContentType("text/plain");
-            response.getWriter().print(result);
-            response.flushBuffer();
-        } catch (ScriptException ex) {
-            Logger.getLogger(ScriptServlet.class.getName()).log(Level.SEVERE, null, ex);
+        String engine = request.getParameter("engine");
+        String name = request.getParameter("name");
+        String result = "";
+        
+        switch (name) {
+            case "folhaPagamento":
+                result = folhaPagamentoService.getResumoCalculoFolha(engine, 1780.23, 28, 2.4);
+                break;
+            case "pessoaRepositoryExecutor":
+                result = pessoaRespositoryExecutor.execute(pessoaRepository);
+                break;
         }
+
+        response.setContentType("text/plain");
+        response.getWriter().print(result);
+        response.flushBuffer();
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String scriptType = request.getParameter("script");
+        String engine = request.getParameter("engine");
+        String name = request.getParameter("name");
         String code = new Scanner(request.getInputStream()).useDelimiter("\\Z").next();
 
-        Script script = repository.findByType(scriptType);
+        Script script = repository.findByNameEqualAndTypeEqual(name, engine);
         script.setCode(code);
 
         repository.save(script);

@@ -66,7 +66,11 @@ public class ${interfaceName}Impl implements ${interfacePath}{
         <#if m.returnTypeCollection>
         return query.getResultList();
         <#else>
-        return query.getSingleResult();
+        java.util.List<${entityName}> result = query.getResultList();
+        if(result != null && !result.isEmpty()){
+            return result.iterator().next();
+        }
+        return null;
         </#if>
     }
 </#if>

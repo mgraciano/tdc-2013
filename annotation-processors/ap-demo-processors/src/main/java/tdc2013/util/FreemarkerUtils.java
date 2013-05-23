@@ -28,27 +28,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package tdc2013.web.script;
+package tdc2013.util;
 
-import java.math.BigDecimal;
-import tdc2013.script.Script;
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import java.io.IOException;
+import java.io.Writer;
 
-/**
- *
- * @author Klaus Boeing
- */
-@Script(value = "tdc2013.web.ScriptProviderImpl$Groovy", engine = "groovy")
-public interface CustomScriptGroovy  {
+public class FreemarkerUtils {
 
-    public int soma(int n1, int n2);
+    private static Configuration cfg = new Configuration();
 
-    public int diminui(int n1, int n2);
+    public static void parseTemplate(Writer writer, Object obj, String templateName) throws TemplateException, IOException {
+        cfg.setClassForTemplateLoading(FreemarkerUtils.class, "/");
+        cfg.setObjectWrapper(new DefaultObjectWrapper());
 
-    public int multiplica(int n1, int n2);
-
-    public BigDecimal divide(int n1, int n2);
+        Template t = cfg.getTemplate(templateName);
+        t.process(obj, writer);
+    }
 }

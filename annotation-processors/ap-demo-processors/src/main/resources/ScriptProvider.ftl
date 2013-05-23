@@ -42,34 +42,35 @@ import java.io.InputStream;
 import java.util.Scanner;
 import tdc2013.script.ScriptProvider;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 
 @javax.annotation.Generated(value = "tdc2013.repository.processors", date = "${date}")
 public class ${interfaceName}ScriptsProvider {
+
+    @Inject ScriptProvider provider;
 
     @Produces @RequestScoped
     public ${interfacePath} getScript() throws ScriptException{
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("${engine}");
    
-        engine.eval(getScript("${script}"));
+        engine.eval(getScript("${script}", "${engine}"));
         
         return Invocable.class.cast(engine).getInterface(${interfacePath}.class);
     }
 
-    private String getScript(String script){
-        String newValue = null;
-        try {
-            Class<ScriptProvider> clazz = (Class<ScriptProvider>) getClass().getClassLoader().loadClass(script);
-            ScriptProvider provider = clazz.newInstance();
-            newValue = provider.getScript();
-        } catch (Exception ex) {
-            InputStream is = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("${script}");
+    private String getScript(String name, String script){
+        String value = provider.getScript(name, script);
+
+        if(value == null){
+            InputStream is = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(name);
             if(is == null){
-                is = Thread.currentThread().getContextClassLoader().getResourceAsStream("${script}");
+                is = getClass().getResourceAsStream(name);
             }
-            
-            newValue = new Scanner(is).useDelimiter("\\Z").next();
+
+            value = new Scanner(is).useDelimiter("\\Z").next();
         }
-        return newValue;
+
+        return value;
     }
 
 }

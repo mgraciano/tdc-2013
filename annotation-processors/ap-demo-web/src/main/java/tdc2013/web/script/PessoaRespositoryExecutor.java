@@ -28,34 +28,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package tdc2013.repository.processors;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package tdc2013.web.script;
 
-import java.io.IOException;
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.Writer;
-import java.util.HashMap;
-import java.util.Map;
+import tdc2013.hibernate.model.PessoaRepository;
+import tdc2013.script.Script;
 
-public class FreemarkerUtils {
-
-    private static Configuration cfg = new Configuration();
-
-    public static void parseTemplate(Writer writer, Object obj, String templateName) throws TemplateException, IOException {
-        cfg.setClassForTemplateLoading(FreemarkerUtils.class, "/");
-        cfg.setObjectWrapper(new DefaultObjectWrapper());
-
-        Template t = cfg.getTemplate(templateName);
-        t.process(obj, writer);
-    }
-
-    public static void main(String[] args) throws IOException, TemplateException {
-        Map map = new HashMap();
-        map.put("name", "Teste");
-        FreemarkerUtils.parseTemplate(new FileWriter(File.createTempFile("testestes", "sasdteste")), map, "RepositoryClass.ftl");
-    }
+@Script(value="pessoaRepositoryExecutor")
+public interface PessoaRespositoryExecutor {
+    
+    public String execute(PessoaRepository repository);
+    
 }

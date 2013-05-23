@@ -53,13 +53,9 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.tools.JavaFileObject;
-import tdc2013.repository.processors.FreemarkerUtils;
 import tdc2013.script.Script;
+import tdc2013.util.FreemarkerUtils;
 
-/**
- *
- * @author klaus.boeing
- */
 @SupportedAnnotationTypes("tdc2013.script.Script")
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class ScriptProcessor extends AbstractProcessor {

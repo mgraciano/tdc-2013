@@ -28,40 +28,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.hibernate.model;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
-/**
- *
- * @author Klaus Boeing
- */
 @Stateless
 public class ScriptRepository {
 
     @Inject
-    EntityManager em;
-    
-    public void save(Script script) {
-        em.merge(script);
+    private EntityManager em;
+
+
+   
+    public void save(Script entity){
+        em.merge(entity);
     }
 
-    public void remove(Script script) {
-        em.remove(script);
-    }
-    
-    public Script findById(Long id) {
-        return em.find(Script.class, id);
+    public tdc2013.hibernate.model.Script findByIdEqual( java.lang.Long id){
+
+        TypedQuery<Script> query = em.createQuery("SELECT entity FROM Script entity WHERE entity.id  = ? ", Script.class);
+                
+        query.setParameter(1, id);
+
+        java.util.List<Script> result = query.getResultList();
+        if(result != null && !result.isEmpty()){
+            return result.iterator().next();
+        }
+        return null;
     }
 
-    public Script findByType(String type) {
-        return em.createQuery("select s from Script s where s.type = ?", Script.class).setParameter(1, type).getSingleResult();
+    public tdc2013.hibernate.model.Script findByNameEqualAndTypeEqual( java.lang.String name, java.lang.String type){
+
+        TypedQuery<Script> query = em.createQuery("SELECT entity FROM Script entity WHERE entity.name  = ?  And entity.type  = ? ", Script.class);
+                
+        query.setParameter(1, name);
+        query.setParameter(2, type);
+
+        java.util.List<Script> result = query.getResultList();
+        if(result != null && !result.isEmpty()){
+            return result.iterator().next();
+        }
+        return null;
     }
-    
+
 }

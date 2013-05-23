@@ -32,14 +32,24 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tdc2013.web.script;
+package tdc2013.web;
 
-import tdc2013.hibernate.model.PessoaRepository;
-import tdc2013.script.Script;
+/**
+ *
+ * @author Klaus Boeing
+ */
+public enum ScriptEngine {
+    GROOVY("groovy"),JAVA_SCRIPT("javascript"),PYTHON("python");
+    private String engine;
+    ScriptEngine(String engine) {
+        this.engine = engine;
+    }
+    
+    public String get(){
+        return engine;
+    }
 
-@Script(value="tdc2013.web.ScriptProviderImpl$JavaScriptRepository", engine = "rhino")
-public interface PessoaRespositoryTester {
-    
-    public String testPessoaRepository(PessoaRepository repository);
-    
+    public boolean isValueEquals(String engine){
+        return this.engine.equals(engine);
+    }
 }

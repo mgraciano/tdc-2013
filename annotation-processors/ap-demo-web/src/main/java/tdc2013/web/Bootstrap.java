@@ -37,7 +37,6 @@ package tdc2013.web;
 import java.util.Scanner;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -48,17 +47,12 @@ import tdc2013.hibernate.model.Script;
 import tdc2013.hibernate.model.ScriptRepository;
 import tdc2013.hibernate.model.Sexo;
 
-/**
- * Web application lifecycle listener.
- *
- * @author Klaus Boeing
- */
 @Named
 @WebListener()
 public class Bootstrap implements ServletContextListener {
+    public static final String FOLHA_PAGAMENTO = "folhaPagamento";
+    public static final String PESSOA_REPOSITORY_EXECUTOR = "pessoaRepositoryExecutor";
 
-    @Inject
-    EntityManager em;
     @Inject
     ScriptRepository scriptRepository;
     @Inject
@@ -66,49 +60,48 @@ public class Bootstrap implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        String codeFolhaPagamentoGroovy = new Scanner(getClass().getResourceAsStream("/scriptFolhaPagamento.groovy")).useDelimiter("\\Z").next();
+        String codeFolhaPagamentoJavaScript = new Scanner(getClass().getResourceAsStream("/scriptFolhaPagamento.js")).useDelimiter("\\Z").next();
+        String codeFolhaPagamentoPython = new Scanner(getClass().getResourceAsStream("/scriptFolhaPagamento.py")).useDelimiter("\\Z").next();
+        String codePessoaRepositoryExecutorJavaScript = new Scanner(getClass().getResourceAsStream("/scriptPessoaRepositoryExecutor.js")).useDelimiter("\\Z").next();
 
-        String codeGV = new Scanner(getClass().getResourceAsStream("/script.groovy")).useDelimiter("\\Z").next();
-        String codeJS = new Scanner(getClass().getResourceAsStream("/script.js")).useDelimiter("\\Z").next();
-        String codePY = new Scanner(getClass().getResourceAsStream("/script.py")).useDelimiter("\\Z").next();
-        String codeJSRepository = new Scanner(getClass().getResourceAsStream("/scriptRepository.js")).useDelimiter("\\Z").next();
+        Script scriptFolhaPagamentoGroovy = scriptRepository.findByNameEqualAndTypeEqual(FOLHA_PAGAMENTO, ScriptEngine.GROOVY.get());
+        Script scriptFolhaPagamentoJavaScript = scriptRepository.findByNameEqualAndTypeEqual(FOLHA_PAGAMENTO, ScriptEngine.JAVA_SCRIPT.get());
+        Script scriptFolhaPagamentoPython = scriptRepository.findByNameEqualAndTypeEqual(FOLHA_PAGAMENTO, ScriptEngine.PYTHON.get());
+        Script scriptPessoaRepositoryExecutorJavaScript = scriptRepository.findByNameEqualAndTypeEqual("pessoaRepositoryExecutor", ScriptEngine.JAVA_SCRIPT.get());
 
-        Script scriptGV = em.find(Script.class, 1L);
-        Script scriptJS = em.find(Script.class, 2L);
-        Script scriptPY = em.find(Script.class, 3L);
-        Script scriptJSRepository = em.find(Script.class, 4L);
-
-        if (scriptGV == null) {
-            scriptGV = new Script();
-            scriptGV.setId(1L);
-            scriptGV.setType("groovy");
+        if (scriptFolhaPagamentoGroovy == null) {
+            scriptFolhaPagamentoGroovy = new Script();
+            scriptFolhaPagamentoGroovy.setName(FOLHA_PAGAMENTO);
+            scriptFolhaPagamentoGroovy.setType(ScriptEngine.GROOVY.get());
         }
-        scriptGV.setCode(codeGV);
+        scriptFolhaPagamentoGroovy.setCode(codeFolhaPagamentoGroovy);
 
-        if (scriptJS == null) {
-            scriptJS = new Script();
-            scriptJS.setId(2L);
-            scriptJS.setType("javaScript");
+        if (scriptFolhaPagamentoJavaScript == null) {
+            scriptFolhaPagamentoJavaScript = new Script();
+            scriptFolhaPagamentoJavaScript.setName(FOLHA_PAGAMENTO);
+            scriptFolhaPagamentoJavaScript.setType(ScriptEngine.JAVA_SCRIPT.get());
         }
-        scriptJS.setCode(codeJS);
+        scriptFolhaPagamentoJavaScript.setCode(codeFolhaPagamentoJavaScript);
 
-        if (scriptPY == null) {
-            scriptPY = new Script();
-            scriptPY.setId(3L);
-            scriptPY.setType("python");
+        if (scriptFolhaPagamentoPython == null) {
+            scriptFolhaPagamentoPython = new Script();
+            scriptFolhaPagamentoPython.setName(FOLHA_PAGAMENTO);
+            scriptFolhaPagamentoPython.setType(ScriptEngine.PYTHON.get());
         }
-        scriptPY.setCode(codePY);
+        scriptFolhaPagamentoPython.setCode(codeFolhaPagamentoPython);
 
-        if (scriptJSRepository == null) {
-            scriptJSRepository = new Script();
-            scriptJSRepository.setId(4L);
-            scriptJSRepository.setType("js");
+        if (scriptPessoaRepositoryExecutorJavaScript == null) {
+            scriptPessoaRepositoryExecutorJavaScript = new Script();
+            scriptPessoaRepositoryExecutorJavaScript.setName(PESSOA_REPOSITORY_EXECUTOR);
+            scriptPessoaRepositoryExecutorJavaScript.setType(ScriptEngine.JAVA_SCRIPT.get());
         }
-        scriptJSRepository.setCode(codeJSRepository);
+        scriptPessoaRepositoryExecutorJavaScript.setCode(codePessoaRepositoryExecutorJavaScript);
 
-        scriptRepository.save(scriptGV);
-        scriptRepository.save(scriptJS);
-        scriptRepository.save(scriptPY);
-        scriptRepository.save(scriptJSRepository);
+        scriptRepository.save(scriptFolhaPagamentoGroovy);
+        scriptRepository.save(scriptFolhaPagamentoJavaScript);
+        scriptRepository.save(scriptFolhaPagamentoPython);
+        scriptRepository.save(scriptPessoaRepositoryExecutorJavaScript);
 
         Pessoa pessoa1 = new Pessoa();
         pessoa1.setId(1L);
@@ -138,7 +131,6 @@ public class Bootstrap implements ServletContextListener {
         pessoaRepository.save(pessoa2);
         pessoaRepository.save(pessoa3);
         pessoaRepository.save(pessoa4);
-
     }
 
     @Override

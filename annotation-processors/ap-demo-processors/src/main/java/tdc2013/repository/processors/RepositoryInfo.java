@@ -107,7 +107,7 @@ public class RepositoryInfo {
         }
 
         public boolean isReturnTypeCollection() {
-            return returnType.matches("java.util.(Collection|List|Set)");
+            return returnType.matches("java.util.(Collection|List|Set).*");
         }
 
         public String getParametersString() {

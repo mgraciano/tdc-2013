@@ -39,5 +39,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Script {
     String value();
-    String engine() default "js";
+    String engine() default "javascript";
 }

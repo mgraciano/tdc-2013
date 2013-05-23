@@ -49,10 +49,8 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.tools.JavaFileObject;
 import tdc2013.repository.processors.RepositoryInfo.MethodInfo;
+import tdc2013.util.FreemarkerUtils;
 
-/**
- * @author Klaus Boeing
- */
 @SupportedAnnotationTypes("tdc2013.repository.Repository")
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class RepositoryProcessor extends AbstractProcessor {
