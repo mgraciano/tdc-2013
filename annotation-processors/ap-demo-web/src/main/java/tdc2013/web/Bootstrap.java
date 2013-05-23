@@ -35,21 +35,21 @@
 package tdc2013.web;
 
 import java.util.Scanner;
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
 import tdc2013.hibernate.model.EstadoCivil;
 import tdc2013.hibernate.model.Pessoa;
 import tdc2013.hibernate.model.PessoaRepository;
 import tdc2013.hibernate.model.Script;
 import tdc2013.hibernate.model.ScriptRepository;
 import tdc2013.hibernate.model.Sexo;
+@Singleton
+@Startup
+public class Bootstrap {
 
-@Named
-@WebListener()
-public class Bootstrap implements ServletContextListener {
+   
     public static final String FOLHA_PAGAMENTO = "folhaPagamento";
     public static final String PESSOA_REPOSITORY_EXECUTOR = "pessoaRepositoryExecutor";
 
@@ -58,8 +58,8 @@ public class Bootstrap implements ServletContextListener {
     @Inject
     PessoaRepository pessoaRepository;
 
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
+    @PostConstruct
+    public void init() {
         String codeFolhaPagamentoGroovy = new Scanner(getClass().getResourceAsStream("/scriptFolhaPagamento.groovy")).useDelimiter("\\Z").next();
         String codeFolhaPagamentoJavaScript = new Scanner(getClass().getResourceAsStream("/scriptFolhaPagamento.js")).useDelimiter("\\Z").next();
         String codeFolhaPagamentoPython = new Scanner(getClass().getResourceAsStream("/scriptFolhaPagamento.py")).useDelimiter("\\Z").next();
@@ -133,7 +133,4 @@ public class Bootstrap implements ServletContextListener {
         pessoaRepository.save(pessoa4);
     }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-    }
 }
