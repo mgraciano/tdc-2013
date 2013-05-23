@@ -28,10 +28,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.hibernate.model;
 
 import java.io.Serializable;
@@ -39,19 +35,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-/**
- *
- * @author Klaus Boeing
- */
 @Entity
 public class Script implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     private Long id;
-    
-    @Column(length=2000)
+    @Column(length = 2000)
     private String code;
-
     private String type;
 
     public String getType() {
@@ -61,7 +52,7 @@ public class Script implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
-    
+
     public String getCode() {
         return code;
     }
@@ -69,7 +60,7 @@ public class Script implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -102,5 +93,4 @@ public class Script implements Serializable {
     public String toString() {
         return "tdc2013.hibernate.model.Script[ id=" + id + " ]";
     }
-    
 }

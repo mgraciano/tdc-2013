@@ -32,10 +32,6 @@ package tdc2013.hibernate.model;
 
 import tdc2013.repository.Repository;
 
-/**
- *
- * @author klaus.boeing
- */
 @Repository
 public interface PessoaRepository {
 
@@ -45,6 +41,6 @@ public interface PessoaRepository {
 
     public Pessoa findBySexoEqual(Sexo sexo);
     //public Collection<Pessoa> findBySexoEqualAndNameLike(Sexo sexo, String name);
-    
+
     public void save(Pessoa entity);
 }

@@ -28,26 +28,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tdc2013.hibernate.model;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-/**
- *
- * @author Klaus Boeing
- */
 @Stateless
 public class ScriptRepository {
 
     @Inject
     EntityManager em;
-    
+
     public void save(Script script) {
         em.merge(script);
     }
@@ -55,13 +47,13 @@ public class ScriptRepository {
     public void remove(Script script) {
         em.remove(script);
     }
-    
+
     public Script findById(Long id) {
         return em.find(Script.class, id);
     }
 
     public Script findByType(String type) {
-        return em.createQuery("select s from Script s where s.type = ?", Script.class).setParameter(1, type).getSingleResult();
+        return em.createQuery("SELECT s FROM Script s WHERE s.type = ?", Script.class).
+                setParameter(1, type).getSingleResult();
     }
-    
 }
