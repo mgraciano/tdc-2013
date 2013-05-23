@@ -31,34 +31,23 @@
 package tdc2013.hibernate;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Properties;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
-import org.hibernate.type.AbstractSingleColumnStandardBasicType;
-import org.hibernate.type.TypeResolver;
 import org.hibernate.usertype.ParameterizedType;
 import org.hibernate.usertype.UserType;
 
 /**
  * @see https://community.jboss.org/wiki/Java5EnumUserType
- * @see
- * http://stackoverflow.com/questions/4744179/java-lang-verifyerror-on-hibernate-specific-usertype
+ * @see http://stackoverflow.com/questions/4744179/java-lang-verifyerror-on-hibernate-specific-usertype
  */
 public class EnumValueUserType implements UserType, ParameterizedType {
 
     private Class<? extends Enum> enumClass;
-    private Class<?> identifierType;
-    private Method identifierMethod;
-    private Method valueOfMethod;
-    private static final String defaultIdentifierMethodName = "getValor";
-    private static final String defaultValueOfMethodName = "valueOf";
-    private AbstractSingleColumnStandardBasicType type;
-    private int[] sqlTypes;
 
     @Override
     public void setParameterValues(Properties parameters) {
@@ -67,35 +56,6 @@ public class EnumValueUserType implements UserType, ParameterizedType {
             enumClass = Class.forName(enumClassName).asSubclass(Enum.class);
         } catch (ClassNotFoundException exception) {
             throw new HibernateException("Enum class not found", exception);
-        }
-
-        String identifierMethodName = parameters.getProperty("identifierMethod", defaultIdentifierMethodName);
-
-        try {
-            identifierMethod = enumClass.getMethod(identifierMethodName,
-                    new Class[0]);
-            identifierType = identifierMethod.getReturnType();
-        } catch (NoSuchMethodException | SecurityException exception) {
-            throw new HibernateException("Failed to optain identifier method",
-                    exception);
-        }
-
-        TypeResolver tr = new TypeResolver();
-        type = (AbstractSingleColumnStandardBasicType) tr.basic(identifierType.getName());
-        if (type == null) {
-            throw new HibernateException("Unsupported identifier type " + identifierType.getName());
-        }
-        sqlTypes = new int[]{type.sqlType()};
-
-        String valueOfMethodName = parameters.getProperty("valueOfMethod",
-                defaultValueOfMethodName);
-
-        try {
-            valueOfMethod = enumClass.getMethod(valueOfMethodName,
-                    new Class[]{identifierType});
-        } catch (NoSuchMethodException | SecurityException exception) {
-            throw new HibernateException("Failed to optain valueOf method",
-                    exception);
         }
     }
 
@@ -130,7 +90,7 @@ public class EnumValueUserType implements UserType, ParameterizedType {
 
     @Override
     public int[] sqlTypes() {
-        return sqlTypes;
+        return new int[]{Types.VARCHAR};
     }
 
     @Override
