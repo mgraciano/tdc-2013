@@ -67,6 +67,7 @@ public class Bootstrap {
 
         if (scriptFolhaPagamentoGroovy == null) {
             scriptFolhaPagamentoGroovy = new Script();
+            scriptFolhaPagamentoGroovy.setId(1L);
             scriptFolhaPagamentoGroovy.setName(FOLHA_PAGAMENTO);
             scriptFolhaPagamentoGroovy.setType(ScriptEngine.GROOVY.get());
         }
@@ -74,6 +75,7 @@ public class Bootstrap {
 
         if (scriptFolhaPagamentoJavaScript == null) {
             scriptFolhaPagamentoJavaScript = new Script();
+            scriptFolhaPagamentoJavaScript.setId(2L);
             scriptFolhaPagamentoJavaScript.setName(FOLHA_PAGAMENTO);
             scriptFolhaPagamentoJavaScript.setType(ScriptEngine.JAVA_SCRIPT.get());
         }
@@ -81,6 +83,7 @@ public class Bootstrap {
 
         if (scriptFolhaPagamentoPython == null) {
             scriptFolhaPagamentoPython = new Script();
+            scriptFolhaPagamentoPython.setId(3L);
             scriptFolhaPagamentoPython.setName(FOLHA_PAGAMENTO);
             scriptFolhaPagamentoPython.setType(ScriptEngine.PYTHON.get());
         }
@@ -88,6 +91,7 @@ public class Bootstrap {
 
         if (scriptPessoaRepositoryExecutorJavaScript == null) {
             scriptPessoaRepositoryExecutorJavaScript = new Script();
+            scriptPessoaRepositoryExecutorJavaScript.setId(4L);
             scriptPessoaRepositoryExecutorJavaScript.setName(PESSOA_REPOSITORY_EXECUTOR);
             scriptPessoaRepositoryExecutorJavaScript.setType(ScriptEngine.JAVA_SCRIPT.get());
         }

@@ -33,21 +33,16 @@ package tdc2013.hibernate.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Script implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    
-    @Column(length=2000)
+    @Column(length = 2000)
     private String code;
-
-    @Column(unique=true)
+    @Column(unique = true)
     private String name;
 
     public String getName() {
@@ -57,7 +52,6 @@ public class Script implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
     private String type;
 
     public String getType() {
@@ -67,7 +61,7 @@ public class Script implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
-    
+
     public String getCode() {
         return code;
     }
@@ -75,7 +69,7 @@ public class Script implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -108,5 +102,4 @@ public class Script implements Serializable {
     public String toString() {
         return "tdc2013.hibernate.model.Script[ id=" + id + " ]";
     }
-    
 }
