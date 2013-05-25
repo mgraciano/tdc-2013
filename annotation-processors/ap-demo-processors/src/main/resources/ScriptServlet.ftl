@@ -40,25 +40,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import tdc2013.hibernate.model.Script;
-import tdc2013.hibernate.model.ScriptRepository;
+import tdc2013.script.ScriptProvider;
 
 @Named
 @WebServlet(name = "${servletName}", urlPatterns = {"${url}"})
 public class ${servletName}Servlet extends HttpServlet {
 
     @Inject
-    ScriptRepository repository;
+    ScriptProvider provider;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String engine = "${engine}";
         String name = "${script}";
-        Script script = repository.findByNameEqualAndTypeEqual(name, engine);
 
         response.setContentType("text/plain");
-        response.getWriter().print(script.getCode());
+        response.getWriter().print(provider.getScript(name, engine));
         response.flushBuffer();
     }
     
