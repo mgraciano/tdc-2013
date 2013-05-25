@@ -11,3 +11,7 @@ function calcula13(salarioMensal){
 function calculaHoraExtra(salarioMensal, horasExtras){
     return ((salarioMensal / 30) / 8) * horasExtras;
 }
+
+function calculaSalario(repository, diasTrabalhados){
+    return (repository.findByIdEqual(1).getSalario() / 30) * diasTrabalhados;
+}

@@ -58,12 +58,10 @@ public class Bootstrap {
         String codeFolhaPagamentoGroovy = new Scanner(getClass().getResourceAsStream("/scriptFolhaPagamento.groovy")).useDelimiter("\\Z").next();
         String codeFolhaPagamentoJavaScript = new Scanner(getClass().getResourceAsStream("/scriptFolhaPagamento.js")).useDelimiter("\\Z").next();
         String codeFolhaPagamentoPython = new Scanner(getClass().getResourceAsStream("/scriptFolhaPagamento.py")).useDelimiter("\\Z").next();
-        String codePessoaRepositoryExecutorJavaScript = new Scanner(getClass().getResourceAsStream("/scriptPessoaRepositoryExecutor.js")).useDelimiter("\\Z").next();
 
         Script scriptFolhaPagamentoGroovy = scriptRepository.findByNameEqualAndTypeEqual(FOLHA_PAGAMENTO, ScriptEngine.GROOVY.get());
         Script scriptFolhaPagamentoJavaScript = scriptRepository.findByNameEqualAndTypeEqual(FOLHA_PAGAMENTO, ScriptEngine.JAVA_SCRIPT.get());
         Script scriptFolhaPagamentoPython = scriptRepository.findByNameEqualAndTypeEqual(FOLHA_PAGAMENTO, ScriptEngine.PYTHON.get());
-        Script scriptPessoaRepositoryExecutorJavaScript = scriptRepository.findByNameEqualAndTypeEqual("pessoaRepositoryExecutor", ScriptEngine.JAVA_SCRIPT.get());
 
         if (scriptFolhaPagamentoGroovy == null) {
             scriptFolhaPagamentoGroovy = new Script();
@@ -89,42 +87,37 @@ public class Bootstrap {
         }
         scriptFolhaPagamentoPython.setCode(codeFolhaPagamentoPython);
 
-        if (scriptPessoaRepositoryExecutorJavaScript == null) {
-            scriptPessoaRepositoryExecutorJavaScript = new Script();
-            scriptPessoaRepositoryExecutorJavaScript.setId(4L);
-            scriptPessoaRepositoryExecutorJavaScript.setName(PESSOA_REPOSITORY_EXECUTOR);
-            scriptPessoaRepositoryExecutorJavaScript.setType(ScriptEngine.JAVA_SCRIPT.get());
-        }
-        scriptPessoaRepositoryExecutorJavaScript.setCode(codePessoaRepositoryExecutorJavaScript);
-
         scriptRepository.save(scriptFolhaPagamentoGroovy);
         scriptRepository.save(scriptFolhaPagamentoJavaScript);
         scriptRepository.save(scriptFolhaPagamentoPython);
-        scriptRepository.save(scriptPessoaRepositoryExecutorJavaScript);
 
         Pessoa pessoa1 = new Pessoa();
         pessoa1.setId(1L);
         pessoa1.setNome("Carlos da Silva");
         pessoa1.setEstadoCivil(EstadoCivil.CASADO);
         pessoa1.setSexo(Sexo.MASCULINO);
+        pessoa1.setSalario(1200.00);
 
         Pessoa pessoa2 = new Pessoa();
         pessoa2.setId(2L);
         pessoa2.setNome("Mario de Andrade");
         pessoa2.setEstadoCivil(EstadoCivil.SOLTEIRO);
         pessoa2.setSexo(Sexo.MASCULINO);
+        pessoa2.setSalario(1500.00);
 
         Pessoa pessoa3 = new Pessoa();
         pessoa3.setId(3L);
         pessoa3.setNome("Cíntia de Souza");
         pessoa3.setEstadoCivil(EstadoCivil.SOLTEIRO);
         pessoa3.setSexo(Sexo.FEMININO);
+        pessoa3.setSalario(1900.00);
 
         Pessoa pessoa4 = new Pessoa();
         pessoa4.setId(4L);
         pessoa4.setNome("Maria Bernadete");
         pessoa4.setEstadoCivil(EstadoCivil.SOLTEIRO);
         pessoa4.setSexo(Sexo.FEMININO);
+        pessoa4.setSalario(9900.00);
 
         pessoaRepository.save(pessoa1);
         pessoaRepository.save(pessoa2);

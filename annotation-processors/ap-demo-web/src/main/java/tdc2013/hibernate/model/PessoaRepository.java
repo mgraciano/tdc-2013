@@ -41,8 +41,8 @@ public interface PessoaRepository {
     public Pessoa findByNomeLike(String nome);
 
     public Pessoa findBySexoEqual(Sexo sexo);
-    
+
     public Collection<Pessoa> findBySexoEqualAndNameLike(Sexo sexo, String name);
-    
+
     public void save(Pessoa entity);
 }

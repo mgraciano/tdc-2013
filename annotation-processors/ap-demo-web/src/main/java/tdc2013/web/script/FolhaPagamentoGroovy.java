@@ -30,6 +30,7 @@
  */
 package tdc2013.web.script;
 
+import tdc2013.hibernate.model.PessoaRepository;
 import tdc2013.script.Script;
 
 @Script(value = "folhaPagamento", engine = "groovy")
@@ -41,4 +42,5 @@ public interface FolhaPagamentoGroovy {
     
     public Number calculaHoraExtra(Number salarioMensal, double horasExtras);
     
+    public Number calculaSalario(PessoaRepository repository, int diasTrabalhados);
 }

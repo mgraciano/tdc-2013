@@ -1,0 +1,21 @@
+var salarioMensal = calculaSalarioMensal(1200, 28);
+var valor13 = calcula13(1200);
+var horaExtra = (1200, 4);
+var salario = calculaSalario(
+  {
+  	findByIdEqual: function(){
+  		return {
+    		getSalario: function(){
+              return 1200
+  			}
+  		}   	
+  	}
+  },28
+);
+
+'<label>' +
+'Salario: ' + salarioMensal + '<br/>' +
+'HorasExtras: ' + horaExtra + '<br/>' +
+'13 Salário: ' + valor13 +'<br/>' +
+'Salário (Repositorio): ' + salario +'<br/>' +
+ '</label>';

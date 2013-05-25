@@ -28,15 +28,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package tdc2013.web;
+package tdc2013.web.script;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
-import tdc2013.web.script.FolhaPagamentoGroovy;
-import tdc2013.web.script.FolhaPagamentoJavaScript;
-import tdc2013.web.script.FolhaPagamentoPython;
+import tdc2013.hibernate.model.PessoaRepository;
+import tdc2013.web.ScriptEngine;
 
 @Named
 public class FolhaPagamentoService {
@@ -47,12 +46,15 @@ public class FolhaPagamentoService {
     
     @Inject FolhaPagamentoPython pagamentoPython;
     
+    @Inject PessoaRepository pessoaRepository;
+    
     public String getResumoCalculoFolhaGroovy(Number salarioMensal, int diasTrabalhados, double horasExtras){
         StringBuilder builder = new StringBuilder();
         
         builder.append("Salario: ").append(pagamentoGroovy.calculaSalarioMensal(salarioMensal, diasTrabalhados)).append("<br/>");
         builder.append("HorasExtras: ").append(pagamentoGroovy.calculaHoraExtra(salarioMensal, horasExtras)).append("<br/>");
-        builder.append("13 Salário: ").append(pagamentoGroovy.calcula13(salarioMensal)).append("<br/><br/>");
+        builder.append("13 Salário: ").append(pagamentoGroovy.calcula13(salarioMensal)).append("<br/>");
+        builder.append("Salário (Repositorio): ").append(pagamentoGroovy.calculaSalario(pessoaRepository, diasTrabalhados)).append("<br/><br/>");
        
         return builder.append(getEngineInfo(ScriptEngine.GROOVY)).toString();
     }
@@ -61,8 +63,9 @@ public class FolhaPagamentoService {
         StringBuilder builder = new StringBuilder();
         builder.append("Salario: ").append(pagamentoJavaScript.calculaSalarioMensal(salarioMensal, diasTrabalhados)).append("<br/>");
         builder.append("HorasExtras: ").append(pagamentoJavaScript.calculaHoraExtra(salarioMensal, horasExtras)).append("<br/>");
-        builder.append("13 Salário: ").append(pagamentoJavaScript.calcula13(salarioMensal)).append("<br/><br/>");
-       
+        builder.append("13 Salário: ").append(pagamentoJavaScript.calcula13(salarioMensal)).append("<br/>");
+        builder.append("Salário (Repositorio): ").append(pagamentoJavaScript.calculaSalario(pessoaRepository, diasTrabalhados)).append("<br/><br/>");
+
         return builder.append(getEngineInfo(ScriptEngine.JAVA_SCRIPT)).toString();
     }
     
@@ -70,7 +73,8 @@ public class FolhaPagamentoService {
         StringBuilder builder = new StringBuilder();
         builder.append("Salario: ").append(pagamentoPython.calculaSalarioMensal(salarioMensal, diasTrabalhados)).append("<br/>");
         builder.append("HorasExtras: ").append(pagamentoPython.calculaHoraExtra(salarioMensal, horasExtras)).append("<br/>");
-        builder.append("13 Salário: ").append(pagamentoPython.calcula13(salarioMensal)).append("<br/><br/>");
+        builder.append("13 Salário: ").append(pagamentoPython.calcula13(salarioMensal)).append("<br/>");
+        builder.append("Salário (Repositorio): ").append(pagamentoPython.calculaSalario(pessoaRepository, diasTrabalhados)).append("<br/><br/>");
        
         return builder.append(getEngineInfo(ScriptEngine.PYTHON)).toString();
     }

@@ -42,6 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 import tdc2013.hibernate.model.PessoaRepository;
 import tdc2013.hibernate.model.Script;
 import tdc2013.hibernate.model.ScriptRepository;
+import tdc2013.web.script.FolhaPagamentoService;
 
 @Named
 @WebServlet(name = "ScriptServlet", urlPatterns = {"/ScriptServlet"})
@@ -70,11 +71,15 @@ public class ScriptServlet extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String engine = request.getParameter("engine");
         String name = request.getParameter("name");
+        Double salarioMensal = Double.valueOf(request.getParameter("salarioMensal"));
+        Integer diasTrabalhados = Integer.valueOf(request.getParameter("diasTrabalhados"));
+        Integer horasExtras = Integer.valueOf(request.getParameter("horasExtras"));
+
         String result = "";
-        
+
         switch (name) {
             case "folhaPagamento":
-                result = folhaPagamentoService.getResumoCalculoFolha(engine, 1780.23, 28, 2.4);
+                result = folhaPagamentoService.getResumoCalculoFolha(engine, salarioMensal, diasTrabalhados, horasExtras);
                 break;
         }
 

@@ -10,3 +10,7 @@ def calcula13(salarioMensal){
 def calculaHoraExtra(salarioMensal, horasExtras){
     return ((salarioMensal / 30) / 8) * horasExtras;
 }
+
+def calculaSalario(repository, diasTrabalhados){
+    return (repository.findByIdEqual(1).getSalario() / 30) * diasTrabalhados;
+}

@@ -30,28 +30,23 @@
     POSSIBILITY OF SUCH DAMAGE.
 
 -->
-
-
-<div class="row-fluid">
-    <div class="span4">
-        <span class="label label-info">Groovy</span>
-    </div>
-    <div class="span4">
-        <span class="label label-warning">JavaScript</span>
-    </div>
-    <div class="span4">
-        <span class="label label-success">Python</span>
-    </div>
+<div class="form-horizontal">
+    <label>Salario Mensal:</label><input ng-model="salarioMensal"></input>
+    <label>Dias Trabalhados:</label> <input ng-model="diasTrabalhados"/></input>
+    <label>Horas Extras:</label><input ng-model="horasExtras"/></input>
 </div>
 
 <div class="row-fluid">
     <div class="span4">
+        <span class="label label-info">Groovy</span>
         <textarea ui-codemirror="{mode: 'text/x-groovy', lineNumbers: true, matchBrackets: true}" ng-model="codeGroovy"></textarea>
     </div>
     <div class="span4">
+        <span class="label label-warning">JavaScript</span>
         <textarea ui-codemirror="{mode: 'text/javascript', lineNumbers: true, matchBrackets: true}" ng-model="codeJavaScript"></textarea>
     </div>
     <div class="span4">
+        <span class="label label-success">Python</span>
         <textarea ui-codemirror="{mode: 'text/x-python', lineNumbers: true, matchBrackets: true}" ng-model="codePython"></textarea>
     </div>
 </div>

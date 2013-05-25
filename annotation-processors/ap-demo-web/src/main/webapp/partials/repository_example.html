@@ -30,17 +30,21 @@
     POSSIBILITY OF SUCH DAMAGE.
 
 -->
-
+<div class="form-horizontal">
+    <label>Salario Mensal:</label><input ng-model="salarioMensal"></input>
+    <label>Dias Trabalhados:</label> <input ng-model="diasTrabalhados"/></input>
+    <label>Horas Extras:</label><input ng-model="horasExtras"/></input>
+</div>
 <div class="row-fluid">
     <div class="span6">
         <span class="label label-info">Server</span>
-        <textarea ui-codemirror="{mode: 'text/javascript', lineNumbers: true, matchBrackets: true}" ng-model="code"></textarea>
+        <textarea ui-codemirror="{mode: 'text/javascript', lineNumbers: true, matchBrackets: true, readOnly: true}" ng-model="code"></textarea>
         <button class="btn btn-primary" ng-click="save(code)">Executar</button>
         <div class="hero-unit" ng-bind-html-unsafe="result"></div>
     </div>
     <div class="span6">
-        <span class="label label-warning">Client</span><input ng-model="param"/>
-        <textarea ui-codemirror="{mode: 'text/javascript', lineNumbers: true, matchBrackets: true}" ng-model="code"></textarea>
+        <span class="label label-warning">Client</span>
+        <textarea ui-codemirror="{mode: 'text/javascript', lineNumbers: true, matchBrackets: true}" ng-model="clientCode"></textarea>
         <button class="btn btn-primary" ng-click="runClient(code)">Executar</button>
         <div class="hero-unit" ng-bind-html-unsafe ="resultClient"></div>
     </div>

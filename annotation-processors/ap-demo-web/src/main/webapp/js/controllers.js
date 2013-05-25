@@ -34,17 +34,21 @@
 
 function repositoryExampleCtrl($scope, $http) {
 
+    $scope.salarioMensal=1200.00;
+    $scope.diasTrabalhados=28;
+    $scope.horasExtras=4;
+    
     get($http, 'javascript', 'folhaPagamento', function(data) {
         $scope.code = data;
     });
 
     $scope.runClient = function(data) {
-        $scope.resultClient = eval($scope.param);
+        $scope.resultClient = eval($scope.clientCode);
     };
 
     $scope.save = function(data) {
         save($http, data, 'javascript', 'folhaPagamento', function() {
-            run($http, 'javascript', 'folhaPagamento', function(data) {
+            run($http, 'javascript', 'folhaPagamento', $scope.salarioMensal, $scope.diasTrabalhados, $scope.horasExtras, function(data) {
                 $scope.result = data;
             });
         });
@@ -52,6 +56,11 @@ function repositoryExampleCtrl($scope, $http) {
 }
 
 function codeEditorExampleCtrl($scope, $http) {
+    
+    $scope.salarioMensal=1200.00;
+    $scope.diasTrabalhados=28;
+    $scope.horasExtras=4;
+    
     get($http, 'groovy', 'folhaPagamento', function(data) {
         $scope.codeGroovy = data;
     });
@@ -69,16 +78,16 @@ function codeEditorExampleCtrl($scope, $http) {
     };
     
     $scope.run = function(engine) {
-        run($http, engine, 'folhaPagamento', function (data){
+        run($http, engine, 'folhaPagamento', $scope.salarioMensal, $scope.diasTrabalhados, $scope.horasExtras, function (data){
             $scope[engine + 'Result'] = data;
         });
     };
 }
 
-function run(http, engine, name, successCallback) {
+function run(http, engine, name, salarioMensal, diasTrabalhados, horasExtras, successCallback) {
     http({
         method: 'PUT',
-        url: '/annotation-processors-demo-web/ScriptServlet?engine=' + engine +'&name=' + name
+        url: '/annotation-processors-demo-web/ScriptServlet?engine=' + engine +'&name=' + name + '&salarioMensal=' + salarioMensal + '&diasTrabalhados=' + diasTrabalhados + '&horasExtras=' + horasExtras
     }).success(successCallback);
 }
 

@@ -52,6 +52,8 @@ public class Pessoa implements Serializable {
     @Type(type = "estadoCivil")
     private EstadoCivil estadoCivil;
 
+    private Double salario;
+    
     public Long getId() {
         return id;
     }
@@ -64,6 +66,14 @@ public class Pessoa implements Serializable {
         return nome;
     }
 
+    public Double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(Double salario) {
+        this.salario = salario;
+    }
+    
     public void setNome(String nome) {
         this.nome = nome;
     }
